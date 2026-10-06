@@ -1,0 +1,1850 @@
+<title>Kit Grafik</title>
+<style>
+/* ============ FONTS ============ */
+@font-face{
+  font-family:"DIN Pro HEAJ";
+  src:url(data:font/otf;base64,__FONT_B64__) format("opentype");
+  font-weight:700;
+  font-style:normal;
+  font-display:swap;
+}
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
+
+/* ============ DESIGN TOKENS ============ */
+:root{
+  --paper:#FFFFFF;
+  --paper-warm:#FBF8F2;
+  --surface-sunken:#F4F0E6;
+  --ink:#181A1E;
+  --ink-soft:#5C5F66;
+  --ink-faint:#8A8D93;
+  --line:#E7E1D3;
+  --line-soft:#F1ECDF;
+  --focus-ring:#21599C;
+
+  --crimson:#C9245A;
+  --coral:#E8404A;
+  --orange:#ED6B47;
+  --amber:#FAB531;
+  --yellow:#EFE21A;
+  --emerald:#38B587;
+  --sky:#35B2E6;
+  --navy:#21599C;
+  --violet:#7F73BC;
+  --pink:#F492BB;
+
+  --c-logos:var(--crimson);
+  --c-typos:var(--amber);
+  --c-couleurs:var(--pink);
+  --c-pictogrammes:var(--emerald);
+  --c-qrcodes:var(--orange);
+  --c-photos:var(--coral);
+  --c-motifs:var(--sky);
+  --c-gabarits:var(--navy);
+  --c-charte:var(--violet);
+
+  --good:#2E9E5B;
+  --warn:#C67C1E;
+  --crit:#D33E3E;
+
+  --radius-sm:6px;
+  --radius-md:10px;
+  --radius-lg:18px;
+  --radius-pill:999px;
+
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px; --sp-9:96px;
+
+  --shadow-sm:0 1px 2px rgba(24,26,30,.06), 0 1px 1px rgba(24,26,30,.04);
+  --shadow-md:0 6px 20px rgba(24,26,30,.10), 0 2px 6px rgba(24,26,30,.06);
+  --shadow-lg:0 20px 48px rgba(24,26,30,.16), 0 6px 16px rgba(24,26,30,.08);
+
+  --font-display:"DIN Pro HEAJ", "Arial Narrow", sans-serif;
+  --font-body:"Barlow", "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#17181B;
+    --paper-warm:#1D1E22;
+    --surface-sunken:#222327;
+    --ink:#F3F1EA;
+    --ink-soft:#B7B9BF;
+    --ink-faint:#82858C;
+    --line:#33343A;
+    --line-soft:#2A2B30;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.5);
+    --shadow-md:0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+    --shadow-lg:0 20px 48px rgba(0,0,0,.6), 0 6px 16px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17181B;
+  --paper-warm:#1D1E22;
+  --surface-sunken:#222327;
+  --ink:#F3F1EA;
+  --ink-soft:#B7B9BF;
+  --ink-faint:#82858C;
+  --line:#33343A;
+  --line-soft:#2A2B30;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.5);
+  --shadow-md:0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+  --shadow-lg:0 20px 48px rgba(0,0,0,.6), 0 6px 16px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+  padding-inline:0;
+}
+img,svg{max-width:100%;display:block;}
+a{color:inherit;}
+button{font-family:inherit;}
+h1,h2,h3{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;margin:0;}
+::selection{background:var(--amber);color:var(--ink);}
+
+.eyebrow{
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+}
+
+/* focus ring */
+:focus-visible{
+  outline:2.5px solid var(--focus-ring);
+  outline-offset:2px;
+  border-radius:4px;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2.5px solid var(--focus-ring);
+  outline-offset:2px;
+}
+
+/* ============ SHELL ============ */
+.shell{max-width:1360px;margin:0 auto;padding-inline:24px;}
+@media (max-width:640px){ .shell{padding-inline:16px;} }
+
+.topbar{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:40;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  display:flex; align-items:center; gap:20px;
+  height:72px;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;cursor:pointer;}
+.brand-mark{height:34px;width:34px;flex-shrink:0;}
+.brand-name{font-family:var(--font-display);font-size:19px;letter-spacing:.01em;line-height:1;}
+.brand-domain{font-size:11px;color:var(--ink-faint);letter-spacing:.04em;margin-top:2px;}
+
+.search{
+  flex:1; max-width:440px; position:relative;
+}
+.search input{
+  width:100%; height:42px; border-radius:var(--radius-pill);
+  border:1.5px solid var(--line); background:var(--paper-warm);
+  padding:0 16px 0 40px; font-size:14px; color:var(--ink); font-family:var(--font-body);
+}
+.search input::placeholder{color:var(--ink-faint);}
+.search input:focus-visible{outline:2.5px solid var(--focus-ring);outline-offset:1px;border-color:var(--focus-ring);}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--ink-faint);pointer-events:none;}
+
+.topbar-actions{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0;}
+#themeToggle{display:none;}
+.topbar-actions .mode-switch{display:none;}
+.mode-switch{
+  display:flex; background:var(--surface-sunken); border-radius:var(--radius-pill); padding:3px; gap:2px;
+}
+.mode-switch button{
+  border:0; background:transparent; padding:7px 14px; border-radius:var(--radius-pill);
+  font-size:13px; font-weight:600; color:var(--ink-soft); cursor:pointer; transition:background .15s,color .15s;
+  display:flex;align-items:center;gap:6px;
+}
+.mode-switch button.active{background:var(--paper);color:var(--ink);box-shadow:var(--shadow-sm);}
+.mode-switch button:hover:not(.active){color:var(--ink);}
+
+.icon-btn{
+  width:40px;height:40px;border-radius:var(--radius-pill);border:1.5px solid var(--line);
+  background:var(--paper); display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--ink-soft); transition:border-color .15s,color .15s,background .15s;
+  flex-shrink:0;
+}
+.icon-btn:hover{border-color:var(--ink-faint);color:var(--ink);background:var(--paper-warm);}
+.icon-btn svg{width:18px;height:18px;}
+
+.btn.btn-share{height:40px;padding:0 16px;gap:8px;border-radius:var(--radius-pill);}
+@media (max-width:640px){ .btn.btn-share{width:40px;padding:0;justify-content:center;} .btn-share-label{display:none;} }
+.menu-toggle{display:none;}
+@media (max-width:860px){
+  .search{display:none;}
+  .search-standalone{display:block;}
+  .menu-toggle{display:flex;}
+  .brand-domain{display:none;}
+}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:var(--radius-md); font-weight:600; font-size:14px; cursor:pointer;
+  border:1.5px solid transparent; padding:10px 18px; font-family:var(--font-body);
+  transition:transform .12s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  white-space:nowrap;
+}
+.btn svg{width:16px;height:16px;flex-shrink:0;}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--ink);color:var(--paper);}
+.btn-primary:hover{background:#000;box-shadow:var(--shadow-sm);}
+:root[data-theme="dark"] .btn-primary, @media (prefers-color-scheme:dark){ .btn-primary{background:var(--ink);color:var(--paper-warm);} }
+.btn-secondary{background:var(--paper);border-color:var(--line);color:var(--ink);}
+.btn-secondary:hover{border-color:var(--ink-faint);background:var(--paper-warm);}
+.btn-ghost{background:transparent;color:var(--ink-soft);}
+.btn-ghost:hover{color:var(--ink);background:var(--surface-sunken);}
+.btn-sm{padding:7px 13px;font-size:13px;border-radius:var(--radius-sm);}
+.btn[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+.btn-block{width:100%;}
+
+/* ============ LAYOUT: sidebar + main ============ */
+.layout{display:grid;grid-template-columns:248px 1fr;gap:0;align-items:start;}
+@media (max-width:860px){ .layout{grid-template-columns:1fr;} }
+
+.sidebar{
+  position:sticky; top:calc(72px + env(safe-area-inset-top,0px)); align-self:start;
+  padding:28px 20px 40px 0; height:calc(100vh - 72px); overflow-y:auto;
+}
+@media (max-width:860px){
+  .sidebar{position:static;height:auto;padding:14px 0;overflow:visible;}
+}
+
+.folder-nav{display:flex;flex-direction:column;gap:2px;}
+.folder-item{display:flex;flex-direction:column;}
+.folder-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-md);
+  text-decoration:none;color:var(--ink-soft);font-size:14px;font-weight:600;cursor:pointer;
+  border:1.5px solid transparent;
+  transition:background .12s,color .12s;
+}
+.folder-link:hover{background:var(--surface-sunken);color:var(--ink);}
+.folder-link.active{background:var(--surface-sunken);color:var(--ink);}
+.folder-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.folder-count{margin-left:auto;font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;}
+.folder-children{display:flex;flex-direction:column;gap:1px;padding-left:27px;margin:2px 0 8px;}
+.folder-children.collapsed{display:none;}
+.sub-link{
+  display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:var(--radius-sm);
+  text-decoration:none;color:var(--ink-faint);font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;
+}
+.sub-link:hover{background:var(--surface-sunken);color:var(--ink);}
+.sub-link.active{color:var(--ink);background:var(--surface-sunken);font-weight:600;}
+
+.sidebar-divider{height:1px;background:var(--line);margin:16px 0;}
+
+/* mobile folder chips */
+.chip-row{display:none;gap:8px;overflow-x:auto;padding:14px 0 4px;-webkit-overflow-scrolling:touch;}
+.chip-row::-webkit-scrollbar{display:none;}
+@media (max-width:860px){ .chip-row{display:flex;} .sidebar-full{display:none;} }
+.chip{
+  flex-shrink:0;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-pill);
+  background:var(--surface-sunken);border:1.5px solid transparent;font-size:13px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer; white-space:nowrap;
+}
+.chip.active{background:var(--ink);color:var(--paper);}
+
+/* ============ MAIN CONTENT ============ */
+.main{padding:28px 0 96px;min-width:0;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-faint);margin-bottom:14px;flex-wrap:wrap;}
+.breadcrumb a{text-decoration:none;color:var(--ink-faint);}
+.breadcrumb a:hover{color:var(--ink);text-decoration:underline;}
+.breadcrumb .sep{opacity:.5;}
+.breadcrumb .crumb-home{display:inline-flex;align-items:center;gap:6px;}
+.breadcrumb .current{color:var(--ink);font-weight:600;}
+
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px;flex-wrap:wrap;}
+.section-head h1{font-size:34px;line-height:1.05;}
+.section-desc{color:var(--ink-soft);font-size:14.5px;max-width:56ch;margin-top:8px;line-height:1.55;}
+.section-count{font-size:13px;color:var(--ink-faint);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.tools-row{display:flex;gap:10px;flex-wrap:wrap;}
+
+.toolbar{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:22px;
+  padding-bottom:18px;border-bottom:1px solid var(--line);
+}
+.filter-chip{
+  display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:var(--radius-pill);
+  border:1.5px solid var(--line);background:var(--paper);font-size:13px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:border-color .12s,color .12s,background .12s;
+}
+.filter-chip:hover{border-color:var(--ink-faint);color:var(--ink);}
+.filter-chip.active{background:var(--ink);border-color:var(--ink);color:var(--paper);}
+.toolbar-spacer{flex:1;}
+.view-toggle{display:flex;border:1.5px solid var(--line);border-radius:var(--radius-md);overflow:hidden;}
+.view-toggle button{
+  width:36px;height:34px;border:0;background:var(--paper);color:var(--ink-faint);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.view-toggle button+button{border-left:1.5px solid var(--line);}
+.view-toggle button.active{background:var(--surface-sunken);color:var(--ink);}
+.view-toggle svg{width:16px;height:16px;}
+
+/* ============ CARDS ============ */
+.grid{
+  display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+}
+.card{
+  background:var(--paper); border:1.5px solid var(--line); border-radius:var(--radius-lg);
+  overflow:hidden; cursor:pointer; text-align:left; padding:0; display:flex; flex-direction:column;
+  transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  position:relative;
+}
+.card:hover{border-color:var(--ink-faint);box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.card:focus-visible{outline:2.5px solid var(--focus-ring);outline-offset:2px;}
+.card-thumb{
+  aspect-ratio:4/3; background:var(--paper-warm); display:flex;align-items:center;justify-content:center;
+  padding:22px; position:relative; border-bottom:1px solid var(--line);
+}
+.card-thumb svg,.card-thumb img{max-height:100%;max-width:100%;object-fit:contain;}
+.card-thumb.dark-thumb{background:var(--ink);}
+.mono-stage{background:var(--ink);border-radius:var(--radius-md);padding:30px 42px;display:flex;align-items:center;justify-content:center;width:100%;}
+.mono-stage .logo-preview-svg{width:100%;max-width:380px;height:auto;max-height:160px;}
+.card-edge{position:absolute;top:0;left:0;right:0;height:4px;}
+.card-quickdl{
+  position:absolute; top:10px; right:10px; width:32px;height:32px;border-radius:50%;
+  background:var(--paper); border:1.5px solid var(--line); display:flex;align-items:center;justify-content:center;
+  color:var(--ink-soft); opacity:0; transform:translateY(-4px); transition:opacity .12s,transform .12s,color .12s,border-color .12s;
+}
+.card:hover .card-quickdl,.card:focus-visible .card-quickdl{opacity:1;transform:none;}
+.card-quickdl:hover{color:var(--ink);border-color:var(--ink-faint);}
+.card-quickdl svg{width:15px;height:15px;}
+.card-body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:7px;flex:1;}
+.card-title{font-size:14.5px;font-weight:700;line-height:1.3;color:var(--ink);}
+.card-meta{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-faint);flex-wrap:wrap;font-variant-numeric:tabular-nums;}
+.type-badge{
+  font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:2.5px 7px;border-radius:5px;
+  background:var(--surface-sunken);color:var(--ink-soft);text-transform:uppercase;
+}
+.card-tags{display:flex;gap:6px;margin-top:2px;flex-wrap:wrap;}
+.folder-tag{
+  font-size:11px;font-weight:600;padding:3px 9px;border-radius:var(--radius-pill);display:inline-flex;align-items:center;gap:5px;
+}
+
+/* skeleton */
+.skeleton{position:relative;overflow:hidden;background:var(--surface-sunken);}
+.skeleton::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:translateX(-100%); animation:shimmer 1.4s infinite;
+}
+:root[data-theme="dark"] .skeleton::after, @media (prefers-color-scheme:dark){.skeleton::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);}}
+@keyframes shimmer{100%{transform:translateX(100%);}}
+.sk-card{border-radius:var(--radius-lg);border:1.5px solid var(--line);overflow:hidden;}
+.sk-thumb{aspect-ratio:4/3;}
+.sk-line{height:11px;border-radius:4px;margin:14px 15px;}
+.sk-line.w60{width:60%;}
+.sk-line.w40{width:40%;margin-top:0;}
+@media (prefers-reduced-motion:reduce){ .skeleton::after{animation:none;} }
+
+/* empty & error states */
+.state-block{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:64px 24px;border:1.5px dashed var(--line);border-radius:var(--radius-lg);gap:14px;color:var(--ink-soft);
+}
+.state-block .state-icon{
+  width:52px;height:52px;border-radius:50%;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;color:var(--ink-faint);
+}
+.state-block .state-icon svg{width:24px;height:24px;}
+.state-block h3{font-family:var(--font-body);text-transform:none;font-size:16px;font-weight:700;color:var(--ink);letter-spacing:0;}
+.state-block p{margin:0;font-size:13.5px;max-width:38ch;line-height:1.5;}
+.state-block.state-error .state-icon{background:color-mix(in srgb, var(--crit) 15%, var(--paper));color:var(--crit);}
+
+/* toast */
+.toast-stack{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:340px;}
+@media (max-width:640px){ .toast-stack{left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));max-width:none;} }
+.toast{
+  background:var(--ink);color:var(--paper-warm);padding:13px 16px;border-radius:var(--radius-md);
+  box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;
+  animation:toast-in .22s ease;
+}
+.toast.toast-error{background:var(--crit);color:#fff;}
+.toast svg{width:17px;height:17px;flex-shrink:0;}
+@keyframes toast-in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ============ CHARTE VIEWER ============ */
+.viewer{position:fixed;inset:0;z-index:120;background:#16171b;color:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .18s ease;}
+.viewer.open{opacity:1;pointer-events:auto;visibility:visible;}
+.viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top,0px));border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+.viewer-title{display:flex;align-items:baseline;gap:12px;min-width:0;}
+.viewer-title-main{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.viewer-count{font-size:13px;color:rgba(255,255,255,.65);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.viewer-tools{display:flex;gap:6px;flex-shrink:0;}
+.viewer-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+.viewer-btn:hover,.viewer-btn.active{background:rgba(255,255,255,.14);}
+.viewer-btn:focus-visible,.viewer-nav:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+.viewer-btn svg{width:18px;height:18px;}
+.viewer-main{position:relative;flex:1;min-height:0;display:flex;}
+.viewer-stage{flex:1;min-width:0;overflow:auto;display:flex;padding:16px 64px;-webkit-overflow-scrolling:touch;}
+.viewer-page{display:block;margin:auto;max-width:100%;max-height:100%;object-fit:contain;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.5);border-radius:2px;cursor:zoom-in;user-select:none;-webkit-user-drag:none;}
+.viewer-stage.zoomed .viewer-page{max-width:none;max-height:none;cursor:zoom-out;}
+.viewer-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;z-index:2;}
+.viewer-nav:hover{background:rgba(255,255,255,.26);}
+.viewer-nav:disabled{opacity:.25;cursor:default;}
+.viewer-nav svg{width:22px;height:22px;}
+.viewer-prev{left:10px;} .viewer-next{right:10px;}
+.viewer-foot{padding:10px 20px;padding-bottom:max(10px,env(safe-area-inset-bottom,0px));border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+.viewer-foot input[type=range]{width:100%;accent-color:#fff;display:block;}
+.viewer-grid{position:absolute;inset:0;background:#16171b;overflow:auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;align-content:start;z-index:3;}
+.viewer-grid[hidden]{display:none;}
+.viewer-thumb{border:2px solid transparent;background:none;padding:0;cursor:pointer;color:#fff;text-align:center;font:inherit;font-size:12px;border-radius:4px;}
+.viewer-thumb img{display:block;width:100%;aspect-ratio:841.89/595.276;object-fit:cover;background:#fff;border-radius:2px;}
+.viewer-thumb span{display:block;padding:4px 0 2px;color:rgba(255,255,255,.7);}
+.viewer-thumb.current{border-color:#fff;}
+@media (max-width:640px){
+  .viewer-stage{padding:10px 8px;}
+  .viewer-nav{width:38px;height:38px;top:auto;bottom:12px;transform:none;background:rgba(0,0,0,.55);}
+  .viewer-prev{left:12px;} .viewer-next{right:12px;}
+  .viewer-zoom{display:none;}
+  .viewer-title-main{font-size:14px;}
+  .viewer-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));padding:12px;gap:10px;}
+}
+@media (prefers-reduced-motion:reduce){ .viewer{transition:none;} }
+
+/* ============ MODAL / DETAIL ============ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(20,18,14,.5);backdrop-filter:blur(2px);
+  display:flex;align-items:flex-end;justify-content:center;z-index:100;padding:0;
+  opacity:0;pointer-events:none;transition:opacity .18s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+@media (min-width:760px){ .modal-overlay{align-items:center;padding:24px;} }
+.modal{
+  background:var(--paper);width:100%;max-width:820px;max-height:92vh;overflow-y:auto;
+  border-radius:20px 20px 0 0; transform:translateY(24px); transition:transform .22s ease;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (min-width:760px){ .modal{border-radius:var(--radius-lg);transform:translateY(8px) scale(.98);} }
+.modal-overlay.open .modal{transform:none;}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:2;}
+.modal-close{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);flex-shrink:0;}
+.modal-close:hover{background:var(--surface-sunken);color:var(--ink);}
+.modal-close svg{width:16px;height:16px;}
+.modal-preview{background:var(--paper-warm);padding:40px;display:flex;align-items:center;justify-content:center;min-height:260px;border-bottom:1px solid var(--line);}
+.modal-preview svg,.modal-preview img{max-height:220px;}
+.modal-body{padding:22px;display:grid;grid-template-columns:1.4fr 1fr;gap:28px;}
+@media (max-width:640px){ .modal-body{grid-template-columns:1fr;} }
+.modal-desc{color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin:0 0 18px;}
+.meta-list{display:flex;flex-direction:column;gap:0;font-size:13.5px;}
+.meta-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-soft);}
+.meta-row:last-child{border-bottom:0;}
+.meta-row span:first-child{color:var(--ink-faint);}
+.meta-row span:last-child{font-weight:600;font-variant-numeric:tabular-nums;text-align:right;}
+.dl-options{display:flex;flex-direction:column;gap:8px;}
+.dl-option{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;
+  border:1.5px solid var(--line);border-radius:var(--radius-md);cursor:pointer;background:var(--paper);
+  transition:border-color .12s,background .12s;
+}
+.dl-option:hover{border-color:var(--ink-faint);background:var(--paper-warm);}
+.dl-option-left{display:flex;align-items:center;gap:10px;}
+.dl-option-left svg{width:18px;height:18px;color:var(--ink-soft);}
+.dl-option-name{font-size:13.5px;font-weight:700;}
+.dl-option-size{font-size:12px;color:var(--ink-faint);}
+
+/* ============ HOME / HERO ============ */
+.hero{padding:56px 0 41px;position:relative;overflow:hidden;}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:1fr auto auto;grid-template-areas:"frise-top frise" "text frise" "actions frise";gap:0 40px;align-items:center;}
+.hero-text{grid-area:text;align-self:end;}
+.hero-frise{grid-area:frise;}
+.hero-actions{grid-area:actions;align-self:start;}
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr 100px;grid-template-rows:auto auto;grid-template-areas:"text frise" "actions actions";gap:0 16px;align-items:start;}
+  .hero-text{align-self:end;} .hero-actions{align-self:start;} .hero-frise{align-self:start;}
+}
+@media (max-width:420px){
+  .hero-grid{grid-template-columns:1fr 76px;}
+}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.hero h1{font-size:56px;line-height:.98;margin-bottom:18px;}
+@media (max-width:640px){ .hero h1{font-size:38px;} }
+.hero p{font-size:16.5px;color:var(--ink-soft);max-width:46ch;line-height:1.6;margin-bottom:0;}
+@media (max-width:860px){ .hero p{margin-bottom:0;} }
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:calc(2 * 1.6 * 16.5px);}
+@media (max-width:640px){ .hero-actions{margin-top:28px;} }
+.hero-frise{display:flex;justify-content:center;align-items:center;}
+.hero-frise svg{width:100%;max-width:260px;height:auto;}
+@media (min-width:861px){ .hero-frise svg{width:auto;max-width:100%;height:clamp(300px,34vw,440px);} .hero-grid{align-items:center;} .hero-text{align-self:end;} }
+@media (max-width:860px){ .hero-frise svg{max-width:100px;} }
+@media (max-width:420px){ .hero-frise svg{max-width:76px;} }
+
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;margin-top:8px;}
+@media (max-width:640px){ .stat-row{grid-template-columns:repeat(3,1fr);} }
+.stat-tile{background:var(--paper);padding:18px 20px;}
+.stat-num{font-family:var(--font-display);font-size:30px;line-height:1;font-variant-numeric:tabular-nums;}
+.stat-label{font-size:12px;color:var(--ink-faint);margin-top:6px;font-weight:600;}
+
+/* folder tiles on home */
+.folder-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:36px 0 8px;}
+@media (max-width:760px){ .folder-tiles{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px){ .folder-tiles{grid-template-columns:1fr;} }
+.folder-tile{
+  border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:20px;cursor:pointer;
+  display:flex;flex-direction:column;gap:14px;transition:border-color .15s,box-shadow .15s,transform .15s;background:var(--paper);
+}
+.folder-tile:hover{border-color:var(--ink-faint);box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.folder-tile-icon{width:44px;height:44px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;}
+.folder-tile-icon svg{width:22px;height:22px;color:#fff;}
+.folder-tile-name{font-family:var(--font-display);font-size:16px;letter-spacing:.01em;}
+.folder-tile-sub{font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
+
+/* footer */
+.site-footer{border-top:1px solid var(--line);margin-top:48px;padding:40px 0 48px;background:var(--paper-warm);position:relative;overflow:hidden;}
+.footer-grid{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:nowrap;position:relative;z-index:1;}
+.footer-info{flex:1 1 auto;min-width:0;}
+.footer-frise{height:72px;flex-shrink:0;cursor:pointer;display:block;}
+.footer-frise svg{height:100%;width:auto;display:block;}
+@media (max-width:760px){ .footer-frise{height:54px;} }
+@media (max-width:480px){ .footer-grid{gap:12px;} .footer-frise{height:40px;} }
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft);}
+.footer-links a{text-decoration:none;}
+.footer-links a:hover{text-decoration:underline;}
+.footer-note{font-size:12px;color:var(--ink-faint);margin-top:6px;}
+
+/* ============ ADMIN ============ */
+.admin-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+@media (max-width:760px){ .admin-kpis{grid-template-columns:repeat(2,1fr);} }
+.kpi-card{border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:18px 20px;background:var(--paper);}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.kpi-icon{width:30px;height:30px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;}
+.kpi-icon svg{width:16px;height:16px;color:#fff;}
+.kpi-delta{font-size:12px;font-weight:700;display:flex;align-items:center;gap:3px;}
+.kpi-delta.up{color:var(--good);}
+.kpi-num{font-family:var(--font-display);font-size:28px;font-variant-numeric:tabular-nums;}
+.kpi-label{font-size:12.5px;color:var(--ink-faint);margin-top:4px;font-weight:600;}
+
+.admin-panel{border:1.5px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--paper);}
+.admin-panel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap;}
+.admin-panel-head h2{font-size:16px;}
+.table-wrap{overflow-x:auto;}
+table.asset-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:680px;}
+table.asset-table th{
+  text-align:left;padding:10px 20px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);
+  border-bottom:1px solid var(--line);font-weight:700;background:var(--paper-warm);
+}
+table.asset-table td{padding:12px 20px;border-bottom:1px solid var(--line-soft);vertical-align:middle;}
+table.asset-table tr:last-child td{border-bottom:0;}
+table.asset-table tr:hover td{background:var(--paper-warm);}
+.row-file{display:flex;align-items:center;gap:10px;}
+.row-file-icon{width:30px;height:30px;border-radius:7px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.row-file-icon svg{width:15px;height:15px;color:var(--ink-soft);}
+.row-file-name{font-weight:700;}
+.row-file-sub{font-size:12px;color:var(--ink-faint);}
+.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:var(--radius-pill);}
+.status-pill.published{background:color-mix(in srgb, var(--good) 15%, var(--paper));color:var(--good);}
+.status-pill.draft{background:var(--surface-sunken);color:var(--ink-faint);}
+.row-actions{display:flex;gap:4px;justify-content:flex-end;}
+.row-actions .icon-btn{width:32px;height:32px;}
+.row-actions svg{width:14px;height:14px;}
+
+.upload-drop{
+  border:2px dashed var(--line);border-radius:var(--radius-lg);padding:44px 24px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:border-color .15s,background .15s;
+  background:var(--paper-warm);
+}
+.upload-drop:hover,.upload-drop.dragover{border-color:var(--navy);background:color-mix(in srgb, var(--navy) 6%, var(--paper-warm));}
+.upload-drop .state-icon{background:var(--paper);}
+
+.progress-track{height:6px;background:var(--surface-sunken);border-radius:var(--radius-pill);overflow:hidden;margin-top:8px;}
+.progress-fill{height:100%;background:var(--navy);border-radius:var(--radius-pill);transition:width .2s ease;}
+
+/* visually hidden */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+
+[hidden]{display:none!important;}
+
+/* mobile sheet */
+.mobile-sheet{max-height:0;overflow:hidden;border-bottom:0 solid var(--line);transition:max-height .22s ease;}
+.mobile-sheet.open{max-height:220px;border-bottom:1px solid var(--line);}
+@media (min-width:861px){ .mobile-sheet{display:none;} }
+
+/* thumbnail content types */
+.logo-thumb-svg{width:100%;height:100%;max-height:120px;}
+.logo-thumb-svg-invert path{filter:invert(1);}
+.frise-thumb-svg{width:60%;max-height:120px;}
+.logo-preview-svg{max-height:200px;}
+.frise-preview-svg{max-height:220px;}
+
+.badge-tile{
+  width:76px;height:76px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);color:#fff;font-size:24px;letter-spacing:.02em;
+}
+.badge-tile-lg{width:120px;height:120px;font-size:36px;border-radius:var(--radius-lg);}
+
+.type-specimen{font-size:56px;line-height:1;}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;max-width:220px;}
+.swatch-cell{aspect-ratio:1;border-radius:6px;}
+
+.picto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.picto-cell{width:42px;height:42px;border-radius:9px;background:var(--paper);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink-soft);}
+
+.photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.photo-ph-inner{
+  display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ink-faint);
+  padding:16px;border:1.5px dashed var(--line);border-radius:var(--radius-md);width:100%;height:100%;justify-content:center;
+}
+.photo-ph-inner span{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+
+.file-tile{width:64px;height:64px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:#fff;}
+
+.charte-cover{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.charte-cover .logo-thumb-svg{max-height:70px;}
+.charte-cover-label{font-family:var(--font-display);color:#fff;font-size:13px;text-align:center;line-height:1.25;}
+.charte-cover-lg .logo-thumb-svg{max-height:110px;}
+.charte-cover-lg .charte-cover-label{font-size:20px;}
+
+.doc-thumb-wrap{position:relative;}
+.doc-vignette{
+  max-height:82%; width:auto; border-radius:3px;
+  box-shadow:0 10px 24px rgba(24,26,30,.16), 0 2px 6px rgba(24,26,30,.10), 0 0 0 1px rgba(24,26,30,.06);
+  transform:rotate(-1.2deg);
+}
+.doc-vignette-lg{max-height:280px;transform:rotate(0deg);border-radius:5px;}
+.doc-page-badge{
+  position:absolute;bottom:10px;right:10px;background:var(--ink);color:var(--paper-warm);
+  font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:var(--radius-pill);
+  font-variant-numeric:tabular-nums;
+}
+
+/* admin extras */
+.bar-list{display:flex;flex-direction:column;gap:12px;}
+.bar-row{display:grid;grid-template-columns:1fr 2fr auto;align-items:center;gap:12px;font-size:13px;}
+.bar-row-label{color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-row-track{height:8px;background:var(--surface-sunken);border-radius:var(--radius-pill);overflow:hidden;}
+.bar-row-fill{height:100%;border-radius:var(--radius-pill);}
+.bar-row-num{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;}
+.draft-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line-soft);}
+.draft-row:last-child{border-bottom:0;}
+@media (max-width:900px){ .admin-dash-grid{grid-template-columns:1fr!important;} }
+</style>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="#" onclick="setMode('public');navigate({type:'home'});return false;" aria-label="Retour à l'accueil — Kit Grafik">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="0.75" y="0.75" width="38.5" height="38.5" rx="2" fill="#FFFFFF" stroke="var(--line)" stroke-width="1.5"/>
+        <rect x="4.5" y="4.5" width="9" height="9" rx="2" fill="var(--c-charte)"/>
+        <rect x="15.5" y="4.5" width="9" height="9" rx="2" fill="var(--c-logos)"/>
+        <rect x="26.5" y="4.5" width="9" height="9" rx="2" fill="var(--c-typos)"/>
+        <rect x="4.5" y="15.5" width="9" height="9" rx="2" fill="var(--c-couleurs)"/>
+        <rect x="15.5" y="15.5" width="9" height="9" rx="2" fill="var(--c-pictogrammes)"/>
+        <rect x="26.5" y="15.5" width="9" height="9" rx="2" fill="var(--c-qrcodes)"/>
+        <rect x="4.5" y="26.5" width="9" height="9" rx="2" fill="var(--c-photos)"/>
+        <rect x="15.5" y="26.5" width="9" height="9" rx="2" fill="var(--c-motifs)"/>
+        <rect x="26.5" y="26.5" width="9" height="9" rx="2" fill="var(--c-gabarits)"/>
+      </svg>
+      <span>
+        <span class="brand-name">KIT GRAFIK</span><br/>
+        <span class="brand-domain">Ressources graphiques de la HEAJ</span>
+      </span>
+    </a>
+    <div class="topbar-actions">
+      <div class="mode-switch" role="tablist" aria-label="Mode d'affichage">
+        <button id="btnModePublic" class="active" role="tab" aria-selected="true" onclick="setMode('public')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/></svg>
+          Bibliothèque
+        </button>
+        <button id="btnModeAdmin" role="tab" aria-selected="false" onclick="setMode('admin')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+          Gestion
+        </button>
+      </div>
+      <button class="btn btn-secondary btn-share" id="shareBtn" onclick="shareKit()" aria-label="Partager le kit graphique">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5.5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="M8.3 10.8 15.7 6.7M8.3 13.2l7.4 4.1"/></svg>
+        <span class="btn-share-label">Partager</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" aria-label="Changer de thème" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+      </button>
+      <button class="icon-btn menu-toggle" aria-label="Menu" onclick="toggleMobileNav()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-sheet" id="mobileMenuSheet">
+    <div class="shell" style="padding-block:14px;display:flex;flex-direction:column;gap:12px;">
+      <div class="search" style="display:block;max-width:none;position:relative;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" placeholder="Rechercher…" aria-label="Rechercher" oninput="onSearchInput(this.value)"/>
+      </div>
+      <div class="mode-switch" style="width:100%;">
+        <button class="active" id="btnModePublicM" style="flex:1;justify-content:center;" onclick="setMode('public');toggleMobileNav();">Bibliothèque</button>
+        <button id="btnModeAdminM" style="flex:1;justify-content:center;" onclick="setMode('admin');toggleMobileNav();">Gestion</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" id="modalPanel"></div>
+</div>
+
+<div class="viewer" id="charteViewer" role="dialog" aria-modal="true" aria-label="Visionneuse — Charte graphique HEAJ" aria-hidden="true">
+  <div class="viewer-bar">
+    <div class="viewer-title"><span class="viewer-title-main">Charte graphique HEAJ</span><span class="viewer-count" id="viewerCount" aria-live="polite"></span></div>
+    <div class="viewer-tools">
+      <button class="viewer-btn" id="viewerGridBtn" onclick="toggleViewerGrid()" aria-label="Afficher les miniatures" title="Miniatures (G)"></button>
+      <button class="viewer-btn viewer-zoom" onclick="viewerZoom(-0.5)" aria-label="Zoom arrière" title="Zoom arrière (−)"></button>
+      <button class="viewer-btn viewer-zoom" onclick="viewerZoom(0.5)" aria-label="Zoom avant" title="Zoom avant (+)"></button>
+      <button class="viewer-btn" onclick="downloadFile('charte','PDF')" aria-label="Télécharger le PDF complet" title="Télécharger le PDF complet" id="viewerDlBtn"></button>
+      <button class="viewer-btn" onclick="closeCharteViewer()" aria-label="Fermer la visionneuse" title="Fermer (Échap)" id="viewerCloseBtn"></button>
+    </div>
+  </div>
+  <div class="viewer-main">
+    <button class="viewer-nav viewer-prev" onclick="viewerGo(-1)" aria-label="Page précédente" id="viewerPrev"></button>
+    <div class="viewer-stage" id="viewerStage"><img class="viewer-page" id="viewerImg" alt="" draggable="false"/></div>
+    <button class="viewer-nav viewer-next" onclick="viewerGo(1)" aria-label="Page suivante" id="viewerNext"></button>
+    <div class="viewer-grid" id="viewerGrid" hidden></div>
+  </div>
+  <div class="viewer-foot">
+    <input type="range" id="viewerRange" min="1" max="67" value="1" aria-label="Aller à la page" oninput="viewerShow(+this.value-1)"/>
+  </div>
+</div>
+
+<script>
+/* ======================================================================
+   ICONS — hand-built line-icon set, 24x24, stroke=currentColor
+   ====================================================================== */
+const ICONS = {
+  folder: '<path d="M3.5 6.5a1.5 1.5 0 0 1 1.5-1.5h4.4l1.8 2h7.3A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5"/>',
+  image: '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17.5l5-5 3.5 3.5L16 12l4.5 5.5"/>',
+  type: '<path d="M5 6.5h14M12 6.5V18M8.7 18h6.6"/>',
+  palette: '<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1 0 1.6-.7 1.6-1.5 0-.4-.15-.75-.4-1a1.4 1.4 0 0 1-.4-1c0-.8.65-1.4 1.5-1.4h1.7a3.7 3.7 0 0 0 3.7-3.7c0-4.4-3.9-8.4-8.7-8.4Z"/><circle cx="7.3" cy="10.8" r="1.1"/><circle cx="9.6" cy="7.4" r="1.1"/><circle cx="14.4" cy="7.4" r="1.1"/><circle cx="16.6" cy="10.8" r="1.1"/>',
+  layoutgrid: '<rect x="3.5" y="3.5" width="7.2" height="7.2" rx="1.3"/><rect x="13.3" y="3.5" width="7.2" height="7.2" rx="1.3"/><rect x="3.5" y="13.3" width="7.2" height="7.2" rx="1.3"/><rect x="13.3" y="13.3" width="7.2" height="7.2" rx="1.3"/>',
+  layers: '<path d="M12 3.5 20.5 8 12 12.5 3.5 8 12 3.5Z"/><path d="M3.5 12.5 12 17l8.5-4.5"/><path d="M3.5 16.5 12 21l8.5-4.5"/>',
+  book: '<path d="M4 5.2A1.7 1.7 0 0 1 5.7 3.5H12v17H5.7A1.7 1.7 0 0 1 4 18.8Z"/><path d="M20 5.2a1.7 1.7 0 0 0-1.7-1.7H12v17h6.3a1.7 1.7 0 0 0 1.7-1.7Z"/>',
+  download: '<path d="M12 3.5v11.3M7.3 10.3 12 15l4.7-4.7"/><path d="M4.5 16.5v2.2a1.8 1.8 0 0 0 1.8 1.8h11.4a1.8 1.8 0 0 0 1.8-1.8v-2.2"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  chevrondown: '<path d="M6 9.5 12 15l6-5.5"/>',
+  chevronright: '<path d="M9.5 6 15 12l-5.5 6"/>',
+  chevronleft: '<path d="M14.5 6 9 12l5.5 6"/>',
+  zoomin: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4M11 8.2v5.6M8.2 11h5.6"/>',
+  zoomout: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4M8.2 11h5.6"/>',
+  grid: '<rect x="4" y="4" width="7" height="7" rx="1.2"/><rect x="13" y="4" width="7" height="7" rx="1.2"/><rect x="4" y="13" width="7" height="7" rx="1.2"/><rect x="13" y="13" width="7" height="7" rx="1.2"/>',
+  list: '<path d="M8.5 6.5h11M8.5 12h11M8.5 17.5h11"/><circle cx="4.3" cy="6.5" r="1"/><circle cx="4.3" cy="12" r="1"/><circle cx="4.3" cy="17.5" r="1"/>',
+  filter: '<path d="M4 5.5h16L14 13v6l-4 2v-8L4 5.5Z"/>',
+  upload: '<path d="M12 20.5V9.2M7.3 13.7 12 9l4.7 4.7"/><path d="M4.5 16.5v2.2a1.8 1.8 0 0 0 1.8 1.8h11.4a1.8 1.8 0 0 0 1.8-1.8v-2.2"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  filetext: '<path d="M7 3.5h7.2L18 7.3V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7 3.5Z"/><path d="M14 3.5V7.3h3.8M9 12h6M9 15.3h6"/>',
+  filedoc: '<path d="M7 3.5h7.2L18 7.3V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7 3.5Z"/><path d="M14 3.5V7.3h3.8"/><path d="M8.7 12h1.3a1.3 1.3 0 1 1 0 2.6H8.7Zm0 0V16m4.3-4h1.5v4M13 16h1.5m2-4v4h1.7"/>',
+  fileppt: '<path d="M7 3.5h7.2L18 7.3V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7 3.5Z"/><path d="M14 3.5V7.3h3.8"/><path d="M9 16v-4.4h1.7a1.5 1.5 0 0 1 0 3H9"/><circle cx="14.3" cy="13.5" r="1.7"/>',
+  filefont: '<path d="M7 3.5h7.2L18 7.3V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7 3.5Z"/><path d="M14 3.5V7.3h3.8"/><path d="M9.2 16.3 12 10l2.8 6.3M9.9 14.6h4.2"/>',
+  filesvg: '<path d="M7 3.5h7.2L18 7.3V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7 3.5Z"/><path d="M14 3.5V7.3h3.8"/><path d="M8.6 15.8a1 1 0 0 0 1 .9h.5a1 1 0 0 0 0-2h-.4a1 1 0 0 1 0-2h.4a1 1 0 0 1 1 .8M12.6 12.6l1 3.9 1.1-3.9M15.7 16.5h1.6a.9.9 0 0 0 0-1.8h-.7a.9.9 0 0 1 0-1.8h1.6"/>',
+  filezip: '<path d="M7 3.5h7.2L18 7.3V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7 3.5Z"/><path d="M14 3.5V7.3h3.8"/><path d="M11 3.5v2M12.4 6.8v1.6M11 9.7v1.6M12.4 12.6v1.6"/><rect x="10.2" y="14.5" width="2.4" height="2.6" rx=".5"/>',
+  users: '<circle cx="9" cy="8.3" r="3.1"/><path d="M3.5 19c.6-3 2.7-4.7 5.5-4.7S13.9 16 14.5 19"/><circle cx="17" cy="9.3" r="2.4"/><path d="M15.3 14.7c2.3.3 3.7 1.8 4.2 4.3"/>',
+  hexagon: '<path d="M12 3 20 7.5v9L12 21 4 16.5v-9Z"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  harddrive: '<ellipse cx="12" cy="6" rx="7.5" ry="2.6"/><path d="M4.5 6v5.3c0 1.4 3.4 2.6 7.5 2.6s7.5-1.2 7.5-2.6V6"/><path d="M4.5 11.3v5.3c0 1.4 3.4 2.6 7.5 2.6s7.5-1.2 7.5-2.6v-5.3"/>',
+  trend: '<path d="M4 16.5 9.5 11l3.5 3.5L20 7"/><path d="M15 7h5v5"/>',
+  inbox: '<path d="M4 12.5h4.3l1.4 2.5h4.6l1.4-2.5H20"/><path d="M6 5.5h12L20 12.5v4.7A1.8 1.8 0 0 1 18.2 19H5.8A1.8 1.8 0 0 1 4 17.2v-4.7Z"/>',
+  alert: '<path d="M12 4 21.5 20h-19Z"/><path d="M12 10v4.3"/><circle cx="12" cy="17" r=".2" fill="currentColor" stroke-width="2.4"/>',
+  check: '<path d="M5 12.5 9.5 17 19 7"/>',
+  checkcircle: '<circle cx="12" cy="12" r="8.5"/><path d="M8 12.3 10.8 15 16 9.3"/>',
+  pencil: '<path d="M4 20l.9-4L16 4.9a1.7 1.7 0 0 1 2.4 0l.7.7a1.7 1.7 0 0 1 0 2.4L8 19l-4 1Z"/><path d="M13.8 7 17 10.2"/>',
+  trash: '<path d="M5 7h14M9.5 7V5a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 5v2M7 7l.8 12A1.7 1.7 0 0 0 9.5 20.5h5a1.7 1.7 0 0 0 1.7-1.5L17 7"/>',
+  externallink: '<path d="M9 6H5.5A1.5 1.5 0 0 0 4 7.5v11A1.5 1.5 0 0 0 5.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"/><path d="M13 4h7v7M20 4l-9.5 9.5"/>',
+  arrowright: '<path d="M4 12h16M13.5 6l6 6-6 6"/>',
+  home: '<path d="M4 11 12 4l8 7"/><path d="M6 9.7V19a1 1 0 0 0 1 1h3.4v-5.6h3.2V20H17a1 1 0 0 0 1-1V9.7"/>',
+  cloudup: '<path d="M7.5 17.5a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.8A4.25 4.25 0 0 1 17 17.5Z"/><path d="M12 9.5V16M9.3 12.2 12 9.5l2.7 2.7"/>',
+  lock: '<rect x="5" y="10.5" width="14" height="9" rx="1.8"/><path d="M8 10.5V7.7a4 4 0 0 1 8 0v2.8"/>',
+  loader: '<path d="M12 3.5v3.2M12 17.3v3.2M6.3 6.3l2.3 2.3M15.4 15.4l2.3 2.3M3.5 12h3.2M17.3 12h3.2M6.3 17.7l2.3-2.3M15.4 8.6l2.3-2.3"/>',
+  qrcode: '<rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h2.4v2.4H14ZM18.6 14h1.9M14 18.6h1.9M18.6 16.3v4.2h-4.2M20.5 20.5h-1.9"/>',
+  camera: '<path d="M4 8.3A1.6 1.6 0 0 1 5.6 6.7h2.2l1-1.9a1 1 0 0 1 .9-.5h4.6a1 1 0 0 1 .9.5l1 1.9h2.2A1.6 1.6 0 0 1 20 8.3v9.1a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 17.4Z"/><circle cx="12" cy="13" r="3.4"/>',
+  motif: '<path d="M4 20.5 10.3 3.5M9.3 20.5 15.6 3.5M14.6 20.5 20.5 4.3"/>',
+};
+function icon(name, size){
+  size = size || 18;
+  return '<svg viewBox="0 0 24 24" width="'+size+'" height="'+size+'" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||'')+'</svg>';
+}
+
+/* ======================================================================
+   BRAND MARKS — real HEAJ artwork, extracted from the uploaded files
+   ====================================================================== */
+const LOGO_COLOR_PATHS = `__LOGO_COLOR_PATHS__`;
+const LOGO_MONO_PATHS  = `__LOGO_MONO_PATHS__`;
+const LOGO_VB = "0 0 452.6 137.59";
+const FRISE_SVG_INNER = `__FRISE_SVG_INNER__`;
+const FRISE_VB = "96.910156 202.511719 705.34375 2122.882812";
+const KITGRAFIK_LOGO_INNER = `__KITGRAFIK_LOGO_PATHS__`;
+const KITGRAFIK_LOGO_VB = "__KITGRAFIK_LOGO_VB__";
+function kitgrafikLogoMark(cls){
+  return '<svg viewBox="'+KITGRAFIK_LOGO_VB+'" class="'+(cls||'')+'" aria-hidden="true">'+KITGRAFIK_LOGO_INNER+'</svg>';
+}
+const CHARTE_COVER = "data:image/png;base64,__CHARTE_COVER_B64__";
+const CHARTE_COVER_HI = "data:image/png;base64,__CHARTE_COVER_HI_B64__";
+const QR_HEAJ = "data:image/png;base64,__QR_HEAJ_B64__";
+const INLINE_LOGOS = {
+  medea: { vb:"__MEDEA_VB__", color:`__MEDEA_COLOR__`, mono:`__MEDEA_MONO__` },
+  createch: { vb:"__CREATECH_VB__", color:`__CREATECH_NOIR_PATHS__`, mono:`__CREATECH_BLANC_PATHS__` },
+  apostrophe: { vb:"0 0 29.121 45.337", paths:`__APOSTROPHE_PATH__` },
+  anim3d: { vb:"__ANIM3D_VB__", color:`__ANIM3D_COLOR__`, mono:`__ANIM3D_MONO__` },
+  cgp: { vb:"__CGP_VB__", color:`__CGP_COLOR__`, mono:`__CGP_MONO__` },
+  ddi: { vb:"__DDI_VB__", color:`__DDI_COLOR__`, mono:`__DDI_MONO__` },
+  greenpack: { vb:"__GREENPACK_VB__", color:`__GREENPACK_COLOR__`, mono:`__GREENPACK_MONO__` },
+  ir: { vb:"__IR_VB__", color:`__IR_COLOR__`, mono:`__IR_MONO__` },
+  jv: { vb:"__JV_VB__", color:`__JV_COLOR__`, mono:`__JV_MONO__` },
+  storytelling: { vb:"__STORYTELLING_VB__", color:`__STORYTELLING_COLOR__`, mono:`__STORYTELLING_MONO__` },
+  transmedia: { vb:"__TRANSMEDIA_VB__", color:`__TRANSMEDIA_COLOR__`, mono:`__TRANSMEDIA_MONO__` },
+  vfx: { vb:"__VFX_VB__", color:`__VFX_COLOR__`, mono:`__VFX_MONO__` },
+  heajRouge: { vb:"__HEAJ_ROUGE_VB__", paths:`__HEAJ_ROUGE__` },
+  heajSymCouleur: { vb:"__SYMBOL_VB__", paths:`__SYMBOL_COULEUR__` },
+  heajSymBlanc: { vb:"__SYMBOL_VB__", paths:`__SYMBOL_BLANC__` },
+  heajSymRouge: { vb:"__SYMBOL_VB__", paths:`__SYMBOL_ROUGE__` },
+  irSymRouge: { vb:"__IRSYM_VB__", paths:`__IRSYM_ROUGE__` },
+  irSymBlanc: { vb:"__IRSYM_VB__", paths:`__IRSYM_BLANC__` },
+};
+function inlineLogoMark(key, cls, kind, color){
+  const L = INLINE_LOGOS[key];
+  if(!L) return '';
+  const paths = kind === 'mono' ? L.mono : (kind === 'color' ? L.color : L.paths);
+  const style = color ? ' style="color:'+color+'"' : '';
+  return '<svg viewBox="'+L.vb+'" class="'+(cls||'')+'"'+style+' aria-hidden="true">'+paths+'</svg>';
+}
+
+function logoMark(kind, cls){
+  const paths = kind === 'mono' ? LOGO_MONO_PATHS : LOGO_COLOR_PATHS;
+  return '<svg viewBox="'+LOGO_VB+'" class="'+(cls||'')+'" aria-hidden="true">'+paths+'</svg>';
+}
+function friseMark(cls){
+  return '<svg viewBox="'+FRISE_VB+'" class="'+(cls||'')+'" aria-hidden="true">'+FRISE_SVG_INNER+'</svg>';
+}
+
+/* ======================================================================
+   DATA — folders (real IA) + realistic seeded catalog
+   ====================================================================== */
+const FOLDERS = [
+  { slug:'charte', name:'Charte graphique', color:'var(--c-charte)', icon:'book',
+    desc:'Le document de référence : usages du logo, couleurs, typographies et motif.' },
+  { slug:'logos', name:'Logos', color:'var(--c-logos)', icon:'image',
+    desc:'Le logotype HEAJ et ses déclinaisons — filières, options et partenaires.',
+    subfolders:[
+      { slug:'logos-heaj', name:'Logos HEAJ' },
+      { slug:'logos-programmes', name:'Logos des formations' },
+      { slug:'logos-apostrophe', name:'Logos apostrophes' },
+      { slug:'logos-partenaires', name:'Logos partenaires' },
+    ]},
+  { slug:'typos', name:'Typos', color:'var(--c-typos)', icon:'type',
+    desc:'Les deux polices de la marque : DIN Pro HEAJ pour les titres, Barlow pour le texte courant.' },
+  { slug:'couleurs', name:'Couleurs', color:'var(--c-couleurs)', icon:'palette',
+    desc:'Le nuancier officiel — codes HEX, RVB, CMJN et fichier .ase prêt à charger.' },
+  { slug:'motifs', name:'Motifs', color:'var(--c-motifs)', icon:'motif',
+    desc:'Le motif de bandes colorées HEAJ, pour l’habillage des supports.' },
+  { slug:'pictogrammes', name:'Pictos', color:'var(--c-pictogrammes)', icon:'hexagon',
+    desc:'Les pictogrammes au trait utilisés dans l’interface et les supports HEAJ.' },
+  { slug:'qrcodes', name:'QR codes', color:'var(--c-qrcodes)', icon:'qrcode',
+    desc:'QR codes prêts à l’emploi et outil pour en générer de nouveaux.' },
+  { slug:'photos', name:'Photos', color:'var(--c-photos)', icon:'camera',
+    desc:'Photothèque du campus — compositions et visuels officiels.',
+    subfolders:[
+      { slug:'photos-portraits', name:'Portraits' },
+      { slug:'photos-lieux', name:'Lieux' },
+      { slug:'photos-autres', name:'Autres' },
+    ]},
+  { slug:'gabarits', name:'Modèles', color:'var(--c-gabarits)', icon:'layers',
+    desc:'Documents Word et présentations PowerPoint prêts à compléter.',
+    subfolders:[
+      { slug:'gabarits-docs', name:'Modèles de documents officiels' },
+      { slug:'gabarits-ppt', name:'PPT de présentation' },
+    ]},
+];
+
+function folderOf(slug){ return FOLDERS.find(f=>f.slug===slug); }
+function subOf(fslug, sslug){ const f=folderOf(fslug); return f && f.subfolders && f.subfolders.find(s=>s.slug===sslug); }
+
+const OWNER = 'Pôle Communication';
+
+const ASSETS = [
+  { id:'logo-couleur', title:'Logo HEAJ — couleur', folder:'logos', sub:'logos-heaj', thumb:'logo-color',
+    files:[{ext:'SVG',bytes:18665},{ext:'PDF',bytes:62138},{ext:'PNG',bytes:39094}],
+    updated:'02/10/2026', owner:OWNER, version:'2025 · v2', downloads:6, status:'published',
+    desc:'Version principale, avec la barre et le point rouges. À utiliser en priorité sur fond blanc ou clair — c’est la version que la plupart des supports doivent porter.' },
+  { id:'logo-mono', title:'Logo HEAJ — blanc', folder:'logos', sub:'logos-heaj', thumb:'logo-mono',
+    files:[{ext:'SVG',bytes:18817},{ext:'PDF',bytes:53544},{ext:'PNG',bytes:4552}],
+    updated:'02/10/2026', owner:OWNER, version:'2025 · v2', downloads:4, status:'published',
+    desc:'Version entièrement blanche, pour les fonds foncés ou les aplats de couleur — photos, vidéos, supports imprimés sur fond sombre.' },
+  { id:'logo-rouge', title:'Logo HEAJ — rouge', folder:'logos', sub:'logos-heaj', thumb:'logo-inline', logoKey:'heajRouge',
+    files:[{ext:'SVG',bytes:8815},{ext:'PDF',bytes:4999}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Version entièrement rouge du logo avec signature — pour les usages où une seule couleur d’accent est souhaitée.' },
+  { id:'symbole-couleur', title:'Symbole HEAJ — couleur', folder:'logos', sub:'logos-heaj', thumb:'logo-inline', logoKey:'heajSymCouleur',
+    files:[{ext:'SVG',bytes:1451},{ext:'PDF',bytes:1586}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Pictogramme seul, sans la signature « Haute École Albert Jacquard » — pour les usages en petit format (favicon, avatar, badge).' },
+  { id:'symbole-blanc', title:'Symbole HEAJ — blanc', folder:'logos', sub:'logos-heaj', thumb:'logo-inline', logoKey:'heajSymBlanc', logoDark:true,
+    files:[{ext:'SVG',bytes:1424},{ext:'PDF',bytes:1553}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Pictogramme seul, version blanche, pour fond foncé — sans la signature « Haute École Albert Jacquard ».' },
+  { id:'symbole-rouge', title:'Symbole HEAJ — rouge', folder:'logos', sub:'logos-heaj', thumb:'logo-inline', logoKey:'heajSymRouge',
+    files:[{ext:'SVG',bytes:1451},{ext:'PDF',bytes:1569}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Pictogramme seul, version rouge — sans la signature « Haute École Albert Jacquard ».' },
+
+  { id:'prog-tg', title:'Bachelier en Techniques graphiques', folder:'logos', sub:'logos-programmes', thumb:'badge', badge:{txt:'TG', color:'var(--crimson)'},
+    files:[{ext:'SVG',bytes:8100},{ext:'PNG',bytes:15200}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:14, status:'published',
+    desc:'Horaire de jour. Déclinaison du logo pour le bachelier en Techniques graphiques — département ICN.' },
+  { id:'prog-jv', title:'Logo Jeu vidéo — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'jv', logoKind:'color',
+    files:[{ext:'SVG',bytes:2134},{ext:'PDF',bytes:2039}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:19, status:'published',
+    desc:'Horaire de jour. Déclinaison du logo pour le bachelier en Jeu vidéo — département ICN.' },
+  { id:'prog-jv-blanc', title:'Logo Jeu vidéo — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'jv', logoKind:'mono',
+    files:[{ext:'SVG',bytes:2108},{ext:'PDF',bytes:2024}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire de jour. Déclinaison blanche du logo pour le bachelier en Jeu vidéo — département ICN.' },
+  { id:'prog-at', title:'Logo Transmédia — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'transmedia', logoKind:'color',
+    files:[{ext:'SVG',bytes:3754},{ext:'PDF',bytes:2889}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:11, status:'published',
+    desc:'Horaire de jour. Déclinaison du logo pour le bachelier en Architecture transmédia — département ICN.' },
+  { id:'prog-at-blanc', title:'Logo Transmédia — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'transmedia', logoKind:'mono',
+    files:[{ext:'SVG',bytes:3721},{ext:'PDF',bytes:2880}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire de jour. Déclinaison blanche du logo pour le bachelier en Architecture transmédia — département ICN.' },
+  { id:'prog-gp', title:'Logo Green Packaging Design — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'greenpack', logoKind:'color',
+    files:[{ext:'SVG',bytes:8487},{ext:'PDF',bytes:5429}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:8, status:'published',
+    desc:'Horaire de jour. Déclinaison du logo pour le bachelier en Green packaging design — département ICN.' },
+  { id:'prog-gp-blanc', title:'Logo Green Packaging Design — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'greenpack', logoKind:'mono',
+    files:[{ext:'SVG',bytes:8427},{ext:'PDF',bytes:5416}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire de jour. Déclinaison blanche du logo pour le bachelier en Green packaging design — département ICN.' },
+  { id:'prog-mjv', title:'Master en Jeu vidéo', folder:'logos', sub:'logos-programmes', thumb:'badge', badge:{txt:'MJV', color:'var(--navy)'},
+    files:[{ext:'SVG',bytes:8100},{ext:'PNG',bytes:15200}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:7, status:'published',
+    desc:'Horaire de jour. Déclinaison du logo pour le master en Jeu vidéo — département ICN.' },
+  { id:'prog-mat', title:'Master en Architecture transmédia', folder:'logos', sub:'logos-programmes', thumb:'badge', badge:{txt:'MAT', color:'var(--violet)'},
+    files:[{ext:'SVG',bytes:8050},{ext:'PNG',bytes:15100}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:5, status:'published',
+    desc:'Horaire de jour. Déclinaison du logo pour le master en Architecture transmédia — département ICN.' },
+  { id:'prog-ct', title:'Logo Créa-Tech — noir', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'createch', logoKind:'color',
+    files:[{ext:'SVG',bytes:5533},{ext:'PDF',bytes:499221}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire décalé. Déclinaison noire du logo de l’option Créa-Tech du bachelier en Techniques graphiques — distincte de l’option MéDeA.' },
+  { id:'prog-ct-blanc', title:'Logo Créa-Tech — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'createch', logoKind:'mono',
+    files:[{ext:'SVG',bytes:5649},{ext:'PDF',bytes:51751}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire décalé. Déclinaison blanche du logo de l’option Créa-Tech du bachelier en Techniques graphiques — distincte de l’option MéDeA.' },
+  { id:'prog-medea', title:'Logo MéDeA — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'medea', logoKind:'color',
+    files:[{ext:'SVG',bytes:9010},{ext:'PDF',bytes:5319}], updated:'02/10/2026', owner:OWNER, version:'v2', downloads:0, status:'published',
+    desc:'Horaire décalé. Logo de l’option MéDeA (2D animation) du bachelier en Techniques graphiques — distincte de l’option Créa-Tech.' },
+  { id:'prog-medea-blanc', title:'Logo MéDeA — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'medea', logoKind:'mono',
+    files:[{ext:'SVG',bytes:8909},{ext:'PDF',bytes:5278}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire décalé. Déclinaison blanche du logo de l’option MéDeA (2D animation) — distincte de l’option Créa-Tech.' },
+  { id:'prog-anim3d', title:'Logo Films Animation 3D — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'anim3d', logoKind:'color',
+    files:[{ext:'SVG',bytes:4451},{ext:'PDF',bytes:3080}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison du logo pour l’option Films Animation 3D — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-anim3d-blanc', title:'Logo Films Animation 3D — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'anim3d', logoKind:'mono',
+    files:[{ext:'SVG',bytes:4403},{ext:'PDF',bytes:3068}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison blanche du logo pour l’option Films Animation 3D — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-cgp', title:'Logo Communication Graphique Publicitaire — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'cgp', logoKind:'color',
+    files:[{ext:'SVG',bytes:12746},{ext:'PDF',bytes:7414}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison du logo pour l’option Communication Graphique Publicitaire — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-cgp-blanc', title:'Logo Communication Graphique Publicitaire — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'cgp', logoKind:'mono',
+    files:[{ext:'SVG',bytes:12644},{ext:'PDF',bytes:7395}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison blanche du logo pour l’option Communication Graphique Publicitaire — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-ddi', title:'Logo Interface Design & Development — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'ddi', logoKind:'color',
+    files:[{ext:'SVG',bytes:10718},{ext:'PDF',bytes:6457}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison du logo pour l’option Interface Design & Development — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-ddi-blanc', title:'Logo Interface Design & Development — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'ddi', logoKind:'mono',
+    files:[{ext:'SVG',bytes:10637},{ext:'PDF',bytes:6451}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison blanche du logo pour l’option Interface Design & Development — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-ir', title:'Logo Image Réelle — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'ir', logoKind:'color',
+    files:[{ext:'SVG',bytes:3146},{ext:'PDF',bytes:2452}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison du logo pour l’option Image Réelle — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-ir-blanc', title:'Logo Image Réelle — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'ir', logoKind:'mono',
+    files:[{ext:'SVG',bytes:3113},{ext:'PDF',bytes:2443}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison blanche du logo pour l’option Image Réelle — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-ir-symbole-rouge', title:'Symbole [IR] — rouge', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'irSymRouge',
+    files:[{ext:'SVG',bytes:982},{ext:'PDF',bytes:1469}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Symbole court de l’option Image Réelle, pour usage en badge ou en complément du logo complet.' },
+  { id:'prog-ir-symbole-blanc', title:'Symbole [IR] — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'irSymBlanc', logoDark:true,
+    files:[{ext:'SVG',bytes:970},{ext:'PDF',bytes:1463}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Symbole court de l’option Image Réelle, déclinaison blanche, pour usage sur fond foncé.' },
+  { id:'prog-vfx', title:'Logo Effets Spéciaux 3D — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'vfx', logoKind:'color',
+    files:[{ext:'SVG',bytes:4921},{ext:'PDF',bytes:3327}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison du logo pour l’option Effets Spéciaux 3D — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-vfx-blanc', title:'Logo Effets Spéciaux 3D — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'vfx', logoKind:'mono',
+    files:[{ext:'SVG',bytes:4872},{ext:'PDF',bytes:3314}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Déclinaison blanche du logo pour l’option Effets Spéciaux 3D — bachelier en Techniques graphiques, département ICN.' },
+  { id:'prog-ig', title:'Bachelier en Jeu vidéo « Indie Games »', folder:'logos', sub:'logos-programmes', thumb:'badge', badge:{txt:'IG', color:'var(--sky)'},
+    files:[{ext:'SVG',bytes:8000},{ext:'PNG',bytes:15000}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:6, status:'published',
+    desc:'Horaire décalé. Déclinaison du logo pour le bachelier en Jeu vidéo « Indie Games » — département ICN.' },
+  { id:'prog-mig', title:'Master en Jeu vidéo « Indie Games »', folder:'logos', sub:'logos-programmes', thumb:'badge', badge:{txt:'MIG', color:'var(--pink)'},
+    files:[{ext:'SVG',bytes:8100},{ext:'PNG',bytes:15200}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:3, status:'published',
+    desc:'Horaire décalé. Déclinaison du logo pour le master en Jeu vidéo « Indie Games » — département ICN.' },
+  { id:'prog-st', title:'Logo Storytelling — couleur', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'storytelling', logoKind:'color',
+    files:[{ext:'SVG',bytes:3927},{ext:'PDF',bytes:2906}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:4, status:'published',
+    desc:'Horaire décalé. Déclinaison du logo pour le master en Architecture transmédia « Storytelling » — département ICN.' },
+  { id:'prog-st-blanc', title:'Logo Storytelling — blanc', folder:'logos', sub:'logos-programmes', thumb:'logo-inline', logoKey:'storytelling', logoKind:'mono',
+    files:[{ext:'SVG',bytes:3890},{ext:'PDF',bytes:2895}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Horaire décalé. Déclinaison blanche du logo pour le master en Architecture transmédia « Storytelling » — département ICN.' },
+  { id:'prog-photo', title:'Certificat en Photogrammétrie', folder:'logos', sub:'logos-programmes', thumb:'badge', badge:{txt:'CP', color:'var(--coral)'},
+    files:[{ext:'SVG',bytes:7900},{ext:'PNG',bytes:14900}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:2, status:'published',
+    desc:'Horaire décalé. Déclinaison du logo pour le certificat en Photogrammétrie — département ICN.' },
+
+  { id:'apo-blanche', title:'Apostrophe — Blanche', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#FFFFFF', logoDark:true,
+    files:[{ext:'SVG',bytes:438},{ext:'PDF',bytes:1198}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison blanche, pour usage sur fond foncé.' },
+  { id:'apo-noire', title:'Apostrophe — Noire', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#231F20',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1208}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison noire, pour usage sur fond clair.' },
+  { id:'apo-rouge-heaj', title:'Apostrophe — Rouge HEAJ', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#E20613',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1210}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison rouge HEAJ.' },
+  { id:'apo-rouge-ir', title:'Apostrophe — Rouge IR', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#FF000F',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1203}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison rouge IR.' },
+  { id:'apo-orange-vfx', title:'Apostrophe — Orange VFX', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#F57332',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1208}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison orange VFX.' },
+  { id:'apo-jaune-ddi', title:'Apostrophe — Jaune DDI', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#FFBE00',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1203}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison jaune DDI.' },
+  { id:'apo-vert-greenpack', title:'Apostrophe — Vert GreenPack', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#285541',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1209}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison vert, Green packaging design.' },
+  { id:'apo-vert-storytelling', title:'Apostrophe — Vert Storytelling', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#23CD8C',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1209}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison vert, Storytelling.' },
+  { id:'apo-bleu-transmedia', title:'Apostrophe — Bleu Transmédia', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#0055A5',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1205}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison bleu, Architecture transmédia.' },
+  { id:'apo-fuschia-jv', title:'Apostrophe — Fuschia JV', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#FA3C78',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1210}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison fuschia, Jeu vidéo.' },
+  { id:'apo-rose-cgp', title:'Apostrophe — Rose CGP', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#F596B9',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1209}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison rose CGP.' },
+  { id:'apo-lilas-3danim', title:'Apostrophe — Lilas 3D Anim', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#A58CD2',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1208}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison lilas, 3D Anim.' },
+  { id:'apo-bordeaux-medea', title:'Apostrophe — Bordeaux MéDeA', folder:'logos', sub:'logos-apostrophe', thumb:'logo-inline', logoKey:'apostrophe', logoColor:'#CD1E5A',
+    files:[{ext:'SVG',bytes:441},{ext:'PDF',bytes:1209}], updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'Élément graphique apostrophe — déclinaison bordeaux, option MéDeA.' },
+
+  { id:'part-mobilite', title:'Partenaire — Mobilité internationale', folder:'logos', sub:'logos-partenaires', thumb:'badge', badge:{txt:'MI', color:'var(--sky)'},
+    files:[{ext:'SVG',bytes:7400},{ext:'PNG',bytes:14100}], updated:'03/03/2026', owner:OWNER, version:'v1', downloads:15, status:'published',
+    desc:'Marque à apposer sur les supports liés aux échanges et à la mobilité étudiante.' },
+  { id:'part-alumni', title:'Partenaire — Réseau Alumni', folder:'logos', sub:'logos-partenaires', thumb:'badge', badge:{txt:'AL', color:'var(--violet)'},
+    files:[{ext:'SVG',bytes:7300},{ext:'PNG',bytes:14000}], updated:'03/03/2026', owner:OWNER, version:'v1', downloads:19, status:'published',
+    desc:'Marque du réseau des ancien·nes étudiant·es HEAJ.' },
+
+  { id:'typo-din', title:'DIN Pro HEAJ — Bold', folder:'typos', thumb:'type-din',
+    files:[{ext:'OTF',bytes:124440}], updated:'22/09/2026', owner:OWNER, version:'v1', downloads:46, status:'published',
+    desc:'Police d’affichage officielle. Réservée aux titres, aux gros chiffres et à la signature de marque — jamais pour du texte courant.' },
+  { id:'typo-barlow', title:'Barlow — famille complète', folder:'typos', thumb:'type-barlow', external:true,
+    externalUrl:'https://fonts.google.com/specimen/Barlow', externalLabel:'Voir sur Google Fonts',
+    files:[{ext:'WEB',bytes:0,label:'Google Fonts'}], updated:'22/09/2026', owner:OWNER, version:'—', downloads:null, status:'published',
+    desc:'Police de texte courant (interface, corps de texte, légendes). Gratuite — à installer depuis Google Fonts.' },
+
+  { id:'nuancier', title:'Nuancier de couleurs HEAJ', folder:'couleurs', thumb:'swatch',
+    files:[{ext:'PDF',bytes:184300},{ext:'ASE',bytes:2100}], updated:'22/09/2026', owner:OWNER, version:'v1', downloads:71, status:'published',
+    desc:'Les 10 teintes de la palette HEAJ avec leurs codes HEX, RVB et CMJN — le fichier .ase se charge directement dans Illustrator et Photoshop.' },
+
+  { id:'pictos', title:'Pictos HEAJ — navigation', folder:'pictogrammes', thumb:'pictos',
+    files:[{ext:'ZIP',bytes:34600,label:'6 SVG'}], updated:'14/04/2026', owner:OWNER, version:'v2', downloads:28, status:'published',
+    desc:'Six pictogrammes au trait (dossier, téléchargement, campus, diplôme, contact, recherche), calés sur une grille de 24 px.' },
+  { id:'frise', title:'Motif HEAJ — mire', folder:'motifs', thumb:'frise',
+    files:[{ext:'SVG',bytes:3484},{ext:'PDF',bytes:55222}], updated:'02/10/2026', owner:OWNER, version:'v2', downloads:0, status:'published',
+    desc:'Motif de bandes colorées type « mire », utilisé en pied de page, en écran de veille et en habillage d’affiches.' },
+  { id:'photos', title:'Photothèque — gabarits (à remplacer)', folder:'photos', sub:'photos-autres', thumb:'photo',
+    files:[{ext:'JPG',bytes:1240000,label:'×3'}], updated:'02/02/2026', owner:OWNER, version:'v0', downloads:9, status:'draft',
+    desc:'Compositions d’exemple en attendant l’import des photos officielles du campus par le pôle communication.' },
+  { id:'qr-heaj', title:'QR code — heaj.be', folder:'qrcodes', thumb:'qrcode',
+    files:[{ext:'PNG',bytes:3399},{ext:'SVG',bytes:5138},{ext:'PDF',bytes:22246}],
+    updated:'02/10/2026', owner:OWNER, version:'v1', downloads:0, status:'published',
+    desc:'QR code pointant vers heaj.be, prêt à l’emploi pour affiches, flyers et signalétique — noir sur fond blanc pour une lecture fiable au scan.' },
+
+  { id:'gabarit-courrier', title:'Gabarit courrier officiel', folder:'gabarits', sub:'gabarits-docs', thumb:'doc',
+    files:[{ext:'DOCX',bytes:31700}], updated:'22/09/2026', owner:OWNER, version:'v2', downloads:64, status:'published',
+    desc:'Papier à en-tête aux couleurs HEAJ — marges, pied de page et styles de titres préréglés.' },
+  { id:'gabarit-rapport', title:'Gabarit rapport / mémoire', folder:'gabarits', sub:'gabarits-docs', thumb:'doc',
+    files:[{ext:'DOCX',bytes:38900}], updated:'22/09/2026', owner:OWNER, version:'v1', downloads:40, status:'published',
+    desc:'Page de garde, styles de titres et sommaire prêts à l’emploi pour les travaux longs.' },
+  { id:'gabarit-ppt', title:'Gabarit présentation HEAJ', folder:'gabarits', sub:'gabarits-ppt', thumb:'ppt',
+    files:[{ext:'PPTX',bytes:412600}], updated:'22/09/2026', owner:OWNER, version:'v2', downloads:88, status:'published',
+    desc:'Diapositives de titre, plan, contenu et clôture aux couleurs et polices HEAJ.' },
+
+  { id:'charte', title:'Identité visuelle et charte graphique — HEAJ', folder:'charte', thumb:'charte-real',
+    files:[{ext:'PDF',bytes:7159579}], updated:'25/03/2025', owner:OWNER, version:'2025', downloads:257, status:'published', pages:67,
+    desc:'Le document de référence complet (67 pages) : logotype, couleurs, typographies, communications, grilles et usages en ligne. Réalisé avec l’agence Gribouillis.' },
+];
+
+function fmtBytes(b){
+  if(!b) return '—';
+  if(b < 1024) return b+' o';
+  if(b < 1024*1024) return (b/1024).toFixed(b<10240?1:0)+' Ko';
+  return (b/(1024*1024)).toFixed(1)+' Mo';
+}
+function fileLine(f){ return f.label ? f.ext+' · '+f.label : f.ext+' · '+fmtBytes(f.bytes); }
+function totalBytes(a){ return a.files.reduce((s,f)=>s+(f.bytes||0),0); }
+function folderCount(slug){ return ASSETS.filter(a=>a.folder===slug).length; }
+function subCount(fslug,sslug){ return ASSETS.filter(a=>a.folder===fslug && a.sub===sslug).length; }
+
+/* ======================================================================
+   STATE
+   ====================================================================== */
+const state = {
+  mode: 'public',
+  route: { type:'home' },
+  q: '',
+  ext: 'all',
+  view: 'grid',
+  loading: false,
+};
+
+function navigate(route){
+  state.route = route;
+  state.q=''; state.ext='all';
+  const si = document.getElementById('searchInput'); if(si) si.value='';
+  simulateLoadThenRender();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function simulateLoadThenRender(){
+  state.loading = true;
+  render();
+  window.clearTimeout(window.__ldt);
+  window.__ldt = window.setTimeout(()=>{ state.loading=false; render(); }, 420);
+}
+function setMode(mode){
+  state.mode = mode;
+  document.getElementById('btnModePublic').classList.toggle('active', mode==='public');
+  document.getElementById('btnModePublic').setAttribute('aria-selected', mode==='public');
+  document.getElementById('btnModeAdmin').classList.toggle('active', mode==='admin');
+  document.getElementById('btnModeAdmin').setAttribute('aria-selected', mode==='admin');
+  if(mode==='admin'){ state.adminTab = state.adminTab || 'dashboard'; }
+  simulateLoadThenRender();
+}
+function toggleTheme(){
+  const root = document.documentElement;
+  const cur = root.getAttribute('data-theme');
+  const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light';
+  let next;
+  if(!cur) next = (sys==='dark') ? 'light' : 'dark';
+  else next = (cur==='dark') ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  try{ localStorage.setItem('kg-theme', next); }catch(e){}
+}
+(function initTheme(){
+  try{ const saved = localStorage.getItem('kg-theme'); if(saved) document.documentElement.setAttribute('data-theme', saved); }catch(e){}
+})();
+function toggleMobileNav(){
+  const sb = document.getElementById('mobileMenuSheet');
+  if(sb) sb.classList.toggle('open');
+}
+
+/* ======================================================================
+   TOASTS
+   ====================================================================== */
+function toast(msg, kind){
+  const stack = document.getElementById('toastStack');
+  const el = document.createElement('div');
+  el.className = 'toast' + (kind==='error' ? ' toast-error' : '');
+  el.innerHTML = icon(kind==='error' ? 'alert' : 'checkcircle', 17) + '<span>'+msg+'</span>';
+  stack.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(6px)'; el.style.transition='all .2s'; setTimeout(()=>el.remove(),200); }, 3400);
+}
+
+/* ======================================================================
+   THUMBNAILS
+   ====================================================================== */
+function accentOf(asset){ const f = folderOf(asset.folder); return f ? f.color : 'var(--ink-faint)'; }
+
+function thumbHTML(asset){
+  switch(asset.thumb){
+    case 'logo-color': return '<div class="card-thumb">'+logoMark('color','logo-thumb-svg')+'</div>';
+    case 'logo-mono': return '<div class="card-thumb dark-thumb">'+logoMark('mono','logo-thumb-svg')+'</div>';
+    case 'frise': return '<div class="card-thumb">'+friseMark('frise-thumb-svg')+'</div>';
+    case 'badge': return '<div class="card-thumb"><div class="badge-tile" style="background:'+asset.badge.color+'">'+asset.badge.txt+'</div></div>';
+    case 'logo-inline': return '<div class="card-thumb'+((asset.logoKind==='mono'||asset.logoDark)?' dark-thumb':'')+'">'+inlineLogoMark(asset.logoKey,'logo-thumb-svg',asset.logoKind,asset.logoColor)+'</div>';
+    case 'type-din': return '<div class="card-thumb dark-thumb"><span class="type-specimen" style="font-family:var(--font-display);color:#fff;">Aa</span></div>';
+    case 'type-barlow': return '<div class="card-thumb"><span class="type-specimen" style="font-family:var(--font-body);font-weight:700;">Aa</span></div>';
+    case 'swatch': return '<div class="card-thumb">'+swatchGridHTML(6)+'</div>';
+    case 'pictos': return '<div class="card-thumb">'+pictoGridHTML()+'</div>';
+    case 'photo': return '<div class="card-thumb">'+photoPlaceholderHTML()+'</div>';
+    case 'qrcode': return '<div class="card-thumb"><img src="'+QR_HEAJ+'" alt="QR code vers heaj.be" style="width:62%;height:auto;image-rendering:pixelated;"/></div>';
+    case 'tool-external': return '<div class="card-thumb"><div class="file-tile" style="background:'+accentOf(asset)+'">'+icon('externallink',30)+'</div></div>';
+    case 'doc': return '<div class="card-thumb"><div class="file-tile" style="background:var(--navy)">'+icon('filedoc',30)+'</div></div>';
+    case 'ppt': return '<div class="card-thumb"><div class="file-tile" style="background:var(--orange)">'+icon('fileppt',30)+'</div></div>';
+    case 'charte': return '<div class="card-thumb dark-thumb"><div class="charte-cover">'+logoMark('mono','logo-thumb-svg')+'<span class="charte-cover-label">Charte<br/>graphique</span></div></div>';
+    case 'charte-real': return '<div class="card-thumb doc-thumb-wrap"><img class="doc-vignette" src="'+CHARTE_COVER+'" alt="Couverture — Identité visuelle et charte graphique HEAJ" loading="lazy"/><span class="doc-page-badge">'+(asset.pages||'')+' p.</span></div>';
+    default: return '<div class="card-thumb"><div class="file-tile" style="background:var(--ink-faint)">'+icon('filetext',30)+'</div></div>';
+  }
+}
+const SWATCH_COLORS = ['--crimson','--amber','--violet','--pink','--emerald','--sky','--orange','--navy','--yellow','--coral'];
+function swatchGridHTML(n){
+  n = n || SWATCH_COLORS.length;
+  let out = '<div class="swatch-grid">';
+  for(let i=0;i<n;i++){ out += '<div class="swatch-cell" style="background:var('+SWATCH_COLORS[i]+')"></div>'; }
+  out += '</div>';
+  return out;
+}
+function pictoGridHTML(){
+  const names = ['folder','download','home','book','users','externallink'];
+  let out = '<div class="picto-grid">';
+  names.forEach(n=>{ out += '<div class="picto-cell">'+icon(n,20)+'</div>'; });
+  out += '</div>';
+  return out;
+}
+function photoPlaceholderHTML(){
+  return '<div class="photo-ph"><div class="photo-ph-inner">'+icon('image',26)+'<span>Exemple à remplacer</span></div></div>';
+}
+
+/* ======================================================================
+   CARD + LIST ROW
+   ====================================================================== */
+function cardHTML(asset){
+  const f = folderOf(asset.folder);
+  const sub = asset.sub ? subOf(asset.folder, asset.sub) : null;
+  const primaryExt = asset.files[0].ext;
+  return (
+    '<button class="card" onclick="openAsset(\''+asset.id+'\')" aria-label="Ouvrir '+escAttr(asset.title)+'">'
+    +'<div style="position:relative;">'
+      + thumbHTML(asset)
+      +'<div class="card-edge" style="background:'+accentOf(asset)+'"></div>'
+      +'<span class="card-quickdl" onclick="event.stopPropagation();quickDownload(\''+asset.id+'\')" role="button" aria-label="Télécharger '+escAttr(asset.title)+'" tabindex="0" onkeydown="if(event.key===\'Enter\'){event.stopPropagation();quickDownload(\''+asset.id+'\')}">'+icon('download',15)+'</span>'
+    +'</div>'
+    +'<div class="card-body">'
+      +'<div class="card-title">'+asset.title+'</div>'
+      +'<div class="card-meta"><span class="type-badge">'+primaryExt+'</span><span>'+fmtBytes(totalBytes(asset))+'</span><span>·</span><span>'+asset.updated+'</span></div>'
+      +'<div class="card-tags">'
+        +'<span class="folder-tag" style="background:color-mix(in srgb,'+accentOf(asset)+' 16%, transparent);color:'+accentOf(asset)+'">'+icon(f.icon,11)+' '+f.name+'</span>'
+        + (asset.status==='draft' ? '<span class="status-pill draft">Brouillon</span>' : '')
+      +'</div>'
+    +'</div>'
+    +'</button>'
+  );
+}
+function skeletonGridHTML(n){
+  n = n || 8;
+  let out = '<div class="grid">';
+  for(let i=0;i<n;i++){
+    out += '<div class="sk-card"><div class="skeleton sk-thumb"></div><div class="skeleton sk-line w60"></div><div class="skeleton sk-line w40"></div></div>';
+  }
+  out += '</div>';
+  return out;
+}
+function escAttr(s){ return String(s).replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
+
+/* ======================================================================
+   FILTERING
+   ====================================================================== */
+function currentAssetList(){
+  let list = ASSETS.slice();
+  const r = state.route;
+  if(r.type==='folder') list = list.filter(a=>a.folder===r.slug);
+  if(r.type==='subfolder') list = list.filter(a=>a.folder===r.fslug && a.sub===r.sslug);
+  if(state.q){
+    const q = state.q.toLowerCase();
+    list = list.filter(a=> a.title.toLowerCase().includes(q) || (folderOf(a.folder)||{}).name.toLowerCase().includes(q));
+  }
+  if(state.ext !== 'all'){
+    list = list.filter(a=> a.files.some(f=>f.ext===state.ext));
+  }
+  return list;
+}
+function extListForRoute(){
+  let list = ASSETS.slice();
+  const r = state.route;
+  if(r.type==='folder') list = list.filter(a=>a.folder===r.slug);
+  if(r.type==='subfolder') list = list.filter(a=>a.folder===r.fslug && a.sub===r.sslug);
+  const set = new Set();
+  list.forEach(a=>a.files.forEach(f=>set.add(f.ext)));
+  return Array.from(set);
+}
+
+/* ======================================================================
+   SIDEBAR
+   ====================================================================== */
+function sidebarHTML(forMobile){
+  const r = state.route;
+  let out = '<nav class="folder-nav" aria-label="Dossiers">';
+  out += '<a class="folder-link'+(r.type==='home'?' active':'')+'" onclick="navigate({type:\'home\'})">'+icon('home',16)+'<span>Kit</span></a>';
+  FOLDERS.forEach(f=>{
+    const isActive = (r.type==='folder' && r.slug===f.slug) || (r.type==='subfolder' && r.fslug===f.slug);
+    out += '<div class="folder-item">';
+    out += '<a class="folder-link'+(isActive&&r.type==='folder'?' active':'')+'" onclick="navigate({type:\'folder\',slug:\''+f.slug+'\'})">'
+         + '<span class="folder-dot" style="background:'+f.color+'"></span><span>'+f.name+'</span>'
+         + '<span class="folder-count">'+folderCount(f.slug)+'</span></a>';
+    if(f.subfolders){
+      out += '<div class="folder-children'+(isActive?'':' collapsed')+'">';
+      f.subfolders.forEach(s=>{
+        const subActive = r.type==='subfolder' && r.fslug===f.slug && r.sslug===s.slug;
+        out += '<a class="sub-link'+(subActive?' active':'')+'" onclick="navigate({type:\'subfolder\',fslug:\''+f.slug+'\',sslug:\''+s.slug+'\'})">'+s.name+'<span class="folder-count">'+subCount(f.slug,s.slug)+'</span></a>';
+      });
+      out += '</div>';
+    }
+    out += '</div>';
+  });
+  out += '</nav>';
+  return out;
+}
+function chipRowHTML(){
+  const r = state.route;
+  let out = '<div class="chip-row">';
+  out += '<button class="chip'+(r.type==='home'?' active':'')+'" onclick="navigate({type:\'home\'})">'+icon('home',13)+' Kit</button>';
+  FOLDERS.forEach(f=>{
+    const isActive = (r.type==='folder' && r.slug===f.slug) || (r.type==='subfolder' && r.fslug===f.slug);
+    out += '<button class="chip'+(isActive?' active':'')+'" onclick="navigate({type:\'folder\',slug:\''+f.slug+'\'})">'+f.name+'</button>';
+  });
+  out += '</div>';
+  return out;
+}
+
+/* ======================================================================
+   BREADCRUMB + TOOLBAR
+   ====================================================================== */
+function breadcrumbHTML(){
+  const r = state.route;
+  let out = '<div class="breadcrumb">';
+  out += '<a class="crumb-home" onclick="navigate({type:\'home\'})" style="cursor:pointer;">'+icon('home',14)+' Kit</a>';
+  if(r.type==='folder'){
+    const f = folderOf(r.slug);
+    out += '<span class="sep">/</span><span class="current">'+f.name+'</span>';
+  } else if(r.type==='subfolder'){
+    const f = folderOf(r.fslug); const s = subOf(r.fslug,r.sslug);
+    out += '<span class="sep">/</span><a onclick="navigate({type:\'folder\',slug:\''+f.slug+'\'})">'+f.name+'</a>';
+    out += '<span class="sep">/</span><span class="current">'+s.name+'</span>';
+  }
+  out += '</div>';
+  return out;
+}
+function toolbarHTML(){
+  const exts = extListForRoute();
+  let out = '<div class="toolbar">';
+  out += '<button class="filter-chip'+(state.ext==='all'?' active':'')+'" onclick="setExt(\'all\')">Tous les types</button>';
+  exts.forEach(e=> out += '<button class="filter-chip'+(state.ext===e?' active':'')+'" onclick="setExt(\''+e+'\')">'+e+'</button>');
+  out += '<div class="toolbar-spacer"></div>';
+  out += '<div class="view-toggle"><button class="'+(state.view==='grid'?'active':'')+'" onclick="setView(\'grid\')" aria-label="Vue grille">'+icon('grid',16)+'</button><button class="'+(state.view==='list'?'active':'')+'" onclick="setView(\'list\')" aria-label="Vue liste">'+icon('list',16)+'</button></div>';
+  out += '</div>';
+  return out;
+}
+function setExt(e){ state.ext = e; renderPublicContent(); }
+function setView(v){ state.view = v; renderPublicContent(); }
+
+/* ======================================================================
+   PUBLIC VIEWS
+   ====================================================================== */
+function totalDownloads(){ return ASSETS.reduce((s,a)=>s+(a.downloads||0),0); }
+function totalStorage(){ return ASSETS.reduce((s,a)=>s+totalBytes(a),0); }
+
+function heroHTML(){
+  return (
+  '<section class="hero"><div class="shell hero-grid">'
+    +'<div class="hero-text">'
+      +'<div class="hero-eyebrow"><span class="eyebrow">Kit graphique HEAJ</span></div>'
+      +'<h1>L<span style="text-transform:lowercase;">e</span> k<span style="text-transform:lowercase;">i</span>t<br/>graph<span style="text-transform:lowercase;margin-left:-.055em;display:inline-block;">i</span><span style="margin-left:.05em;display:inline-block;">k</span>.</h1>'
+      +'<p>Charte graphique, formes, typographie, couleurs et modèles de document. Découvrez et téléchargez ici tout ce qu’il vous faut pour composer un support conforme à l’identité visuelle de la HEAJ.</p>'
+    +'</div>'
+    +'<div class="hero-frise">'+friseMark()+'</div>'
+    +'<div class="hero-actions">'
+      +'<button class="btn btn-primary" onclick="openCharteViewer()">'+icon('book',16)+' Voir la charte graphique HEAJ</button>'
+      +'<button class="btn btn-secondary" onclick="openAsset(\'logo-couleur\')">'+icon('download',16)+' Télécharger le logo HEAJ</button>'
+    +'</div>'
+  +'</div></section>'
+  );
+}
+function folderTilesHTML(){
+  let out = '<div class="shell"><div class="section-head" style="margin-top:12px;"><h2 style="font-size:20px;">Vos ressources</h2></div>'
+    +'<div class="search search-standalone" style="display:block;max-width:420px;margin-bottom:22px;">'
+      +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>'
+      +'<input id="searchInput" type="search" placeholder="Rechercher un logo, un gabarit, une couleur…" aria-label="Rechercher dans le kit graphique" value="'+(state.q||'')+'" oninput="onSearchInput(this.value)"/>'
+    +'</div>'
+    +'<div class="folder-tiles">';
+  FOLDERS.forEach(f=>{
+    out += '<div class="folder-tile" onclick="navigate({type:\'folder\',slug:\''+f.slug+'\'})" tabindex="0" role="button" onkeydown="if(event.key===\'Enter\')navigate({type:\'folder\',slug:\''+f.slug+'\'})">'
+      +'<div class="folder-tile-icon" style="background:'+f.color+'">'+icon(f.icon,22)+'</div>'
+      +'<div><div class="folder-tile-name">'+f.name+'</div><div class="folder-tile-sub">'+folderCount(f.slug)+' fichier'+(folderCount(f.slug)>1?'s':'')+' · '+f.desc+'</div></div>'
+    +'</div>';
+  });
+  out += '</div></div>';
+  return out;
+}
+
+function contentGridOrStates(){
+  if(state.loading) return skeletonGridHTML(8);
+  const list = currentAssetList();
+  if(list.length===0){
+    return '<div class="state-block"><div class="state-icon">'+icon('inbox',24)+'</div><h3>Aucun résultat</h3><p>Aucun fichier ne correspond à «&nbsp;'+ (state.q||'ce filtre') +'&nbsp;». Essayez un autre mot-clé ou réinitialisez les filtres.</p><button class="btn btn-secondary btn-sm" onclick="clearFilters()">Réinitialiser</button></div>';
+  }
+  if(state.view==='list') return listTableHTML(list);
+  return '<div class="grid">'+list.map(cardHTML).join('')+'</div>';
+}
+function listTableHTML(list){
+  let out = '<div class="admin-panel"><div class="table-wrap"><table class="asset-table"><thead><tr><th>Fichier</th><th>Dossier</th><th>Poids</th><th>Mis à jour</th><th></th></tr></thead><tbody>';
+  list.forEach(a=>{
+    const f = folderOf(a.folder);
+    out += '<tr style="cursor:pointer" onclick="openAsset(\''+a.id+'\')">'
+      +'<td><div class="row-file"><div class="row-file-icon" style="color:'+accentOf(a)+'">'+icon(f.icon,15)+'</div><div><div class="row-file-name">'+a.title+'</div><div class="row-file-sub">'+a.files.map(fileLine).join(' · ')+'</div></div></div></td>'
+      +'<td>'+f.name+'</td>'
+      +'<td>'+fmtBytes(totalBytes(a))+'</td>'
+      +'<td>'+a.updated+'</td>'
+      +'<td style="text-align:right"><button class="icon-btn" style="width:32px;height:32px" onclick="event.stopPropagation();quickDownload(\''+a.id+'\')" aria-label="Télécharger">'+icon('download',14)+'</button></td>'
+    +'</tr>';
+  });
+  out += '</tbody></table></div></div>';
+  return out;
+}
+function clearFilters(){ state.q=''; state.ext='all'; const si=document.getElementById('searchInput'); if(si) si.value=''; renderPublicContent(); }
+
+function renderPublicContent(){
+  const holder = document.getElementById('publicContent');
+  if(!holder) return;
+  const r = state.route;
+  let head = '';
+  if(r.type==='home'){
+    holder.innerHTML = '';
+    return; // home renders separately (hero + tiles), handled in renderPublic()
+  }
+  let title, desc, count;
+  if(r.type==='folder'){ const f=folderOf(r.slug); title=f.name; desc=f.desc; }
+  else { const f=folderOf(r.fslug); const s=subOf(r.fslug,r.sslug); title=s.name; desc=f.name+' · '+f.desc; }
+  count = state.loading ? '' : currentAssetList().length;
+  head = breadcrumbHTML()
+    + '<div class="section-head"><div><h1 style="font-size:26px;">'+title+'</h1><div class="section-desc">'+desc+'</div></div>'
+    + (count!=='' ? '<div class="section-count">'+count+' fichier'+(count>1?'s':'')+'</div>' : '')
+    + '</div>'
+    + toolbarHTML();
+  const toolsSection = (r.type==='folder' && r.slug==='qrcodes' && !state.loading) ?
+    '<div class="section-head" style="margin-top:40px;"><div><h2 style="font-size:20px;">Outils</h2><div class="section-desc">Générer un QR code personnalisé à partir d’un lien, sans passer par la bibliothèque de fichiers.</div></div></div>'
+    + '<div class="tools-row"><button class="btn btn-primary" onclick="window.open(\'https://www.adobe.com/express/feature/image/qr-code-generator\',\'_blank\')">'+icon('externallink',16)+' Créer un QR code</button></div>'
+    : '';
+  holder.innerHTML = head + '<div id="gridHolder">'+contentGridOrStates()+'</div>' + toolsSection;
+}
+
+function renderPublic(){
+  const app = document.getElementById('app');
+  const r = state.route;
+  const isHome = r.type==='home';
+  if(isHome){
+    app.innerHTML =
+      '<div class="shell">'+chipRowHTML()+'</div>'
+      + heroHTML() + folderTilesHTML()
+      + '<div class="shell" style="margin-top:44px;"><div class="section-head"><h2 style="font-size:20px;">Récents</h2></div>'
+        + (state.loading? skeletonGridHTML(4) : '<div class="grid">'+ASSETS.slice().sort((a,b)=> b.updated.split('/').reverse().join('').localeCompare(a.updated.split('/').reverse().join(''))).slice(0,4).map(cardHTML).join('')+'</div>')
+      + '</div>'
+      + footerHTML();
+    return;
+  }
+  app.innerHTML =
+    '<div class="shell">'+chipRowHTML()+'</div>'
+    + '<div class="shell"><div class="layout">'
+      + '<aside class="sidebar sidebar-full">'+sidebarHTML()+'</aside>'
+      + '<div class="main" id="publicMain"><div id="publicContent"></div></div>'
+    + '</div></div>'
+    + footerHTML();
+  renderPublicContent();
+}
+
+function footerHTML(){
+  return '<footer class="site-footer"><div class="shell footer-grid">'
+    +'<div class="footer-info"><div class="brand-name" style="font-family:var(--font-display);font-size:15px;margin-bottom:14px;">CONTACTS</div>'
+    +'<div class="footer-links"><a href="mailto:question@heaj.be?subject=Kit%20graphique" style="display:inline-flex;align-items:center;gap:6px;">'+icon('inbox',14)+'question@heaj.be</a><a onclick="openSuggestionForm()" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">'+icon('plus',14)+'Suggérer un ajout</a><a onclick="setMode(\'admin\')" style="display:inline-flex;align-items:center;gap:6px;">'+icon('lock',14)+'Espace gestion</a></div>'
+    +'</div>'
+    +'<a class="footer-frise" href="#" onclick="setMode(\'public\');navigate({type:\'home\'});return false;" aria-label="Retour à l’accueil">'+kitgrafikLogoMark()+'</a>'
+    +'</div></footer>';
+}
+
+/* ======================================================================
+   MODAL / ASSET DETAIL
+   ====================================================================== */
+function openAsset(id){
+  const a = ASSETS.find(x=>x.id===id);
+  if(!a) return;
+  const f = folderOf(a.folder);
+  const panel = document.getElementById('modalPanel');
+  panel.innerHTML =
+    '<div class="modal-head"><div><h2 id="modalTitle" style="font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:18px;font-weight:800;">'+a.title+'</h2>'
+      +'<div class="card-tags" style="margin-top:8px;"><span class="folder-tag" style="background:color-mix(in srgb,'+accentOf(a)+' 16%, transparent);color:'+accentOf(a)+'">'+icon(f.icon,11)+' '+f.name+(a.sub?(' / '+subOf(a.folder,a.sub).name):'')+'</span>'+(a.status==='draft'?'<span class="status-pill draft">Brouillon</span>':'<span class="status-pill published">Publié</span>')+'</div></div>'
+      +'<button class="modal-close" onclick="closeModal()" aria-label="Fermer">'+icon('x',16)+'</button></div>'
+    +(a.id==='charte' ? '<div class="modal-preview" style="cursor:pointer;" onclick="openCharteViewer()" title="Feuilleter la charte">'+thumbPreviewHTML(a)+'</div>' : '<div class="modal-preview">'+thumbPreviewHTML(a)+'</div>')
+    +'<div class="modal-body">'
+      +'<div><p class="modal-desc">'+a.desc+'</p>'
+        +(a.id==='charte' ? '<button class="btn btn-primary btn-block" style="margin-bottom:18px;" onclick="openCharteViewer()">'+icon('book',16)+' Feuilleter la charte en ligne</button>' : '')
+        +'<div class="eyebrow" style="margin-bottom:10px;">Téléchargements disponibles</div>'
+        +'<div class="dl-options">'+a.files.map(fl=>dlOptionHTML(a,fl)).join('')+'</div>'
+        + (a.external ? '<button class="btn btn-secondary btn-block" style="margin-top:10px;" onclick="window.open(\''+a.externalUrl+'\',\'_blank\')">'+icon('externallink',15)+' '+a.externalLabel+'</button>' : '')
+      +'</div>'
+      +'<div><div class="eyebrow" style="margin-bottom:10px;">Détails</div><div class="meta-list">'
+        +'<div class="meta-row"><span>Version</span><span>'+a.version+'</span></div>'
+        + (a.pages ? '<div class="meta-row"><span>Pages</span><span>'+a.pages+'</span></div>' : '')
+        +'<div class="meta-row"><span>Mis à jour</span><span>'+a.updated+'</span></div>'
+        +'<div class="meta-row"><span>Par</span><span>'+a.owner+'</span></div>'
+        + (state.mode==='admin' ? '<div class="meta-row"><span>Téléchargements</span><span>'+(a.downloads!=null? a.downloads.toLocaleString('fr-BE'):'—')+'</span></div>' : '')
+        +'<div class="meta-row"><span>Poids total</span><span>'+fmtBytes(totalBytes(a))+'</span></div>'
+      +'</div></div>'
+    +'</div>';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function thumbPreviewHTML(a){
+  if(a.thumb==='logo-color') return logoMark('color','logo-preview-svg');
+  if(a.thumb==='logo-mono') return '<div class="mono-stage">'+logoMark('mono','logo-preview-svg')+'</div>';
+  if(a.thumb==='frise') return friseMark('frise-preview-svg');
+  if(a.thumb==='badge') return '<div class="badge-tile badge-tile-lg" style="background:'+a.badge.color+'">'+a.badge.txt+'</div>';
+  if(a.thumb==='logo-inline') return (a.logoKind==='mono'||a.logoDark) ? '<div class="mono-stage">'+inlineLogoMark(a.logoKey,'logo-preview-svg',a.logoKind,a.logoColor)+'</div>' : inlineLogoMark(a.logoKey,'logo-preview-svg',a.logoKind,a.logoColor);
+  if(a.thumb==='swatch') return swatchGridHTML(10);
+  if(a.thumb==='pictos') return pictoGridHTML();
+  if(a.thumb==='type-din') return '<span class="type-specimen" style="font-family:var(--font-display);font-size:96px;">Aa</span>';
+  if(a.thumb==='type-barlow') return '<span class="type-specimen" style="font-family:var(--font-body);font-weight:700;font-size:96px;">Aa</span>';
+  if(a.thumb==='photo') return photoPlaceholderHTML();
+  if(a.thumb==='charte') return '<div class="charte-cover charte-cover-lg">'+logoMark('mono','logo-thumb-svg')+'<span class="charte-cover-label">Charte<br/>graphique</span></div>';
+  if(a.thumb==='charte-real') return '<img class="doc-vignette doc-vignette-lg" src="'+CHARTE_COVER_HI+'" alt="Couverture — Identité visuelle et charte graphique HEAJ"/>';
+  if(a.thumb==='qrcode') return '<img src="'+QR_HEAJ+'" alt="QR code vers heaj.be" style="width:200px;height:200px;image-rendering:pixelated;"/>';
+  if(a.thumb==='tool-external') return '<div class="file-tile" style="background:'+accentOf(a)+';width:96px;height:96px;">'+icon('externallink',40)+'</div>';
+  return '<div class="file-tile" style="background:'+accentOf(a)+';width:96px;height:96px;">'+icon(a.thumb==='ppt'?'fileppt':'filedoc',40)+'</div>';
+}
+function dlOptionHTML(asset, f){
+  const iconName = {SVG:'filesvg',PDF:'filetext',PNG:'image',OTF:'filefont',ASE:'filetext',DOCX:'filedoc',PPTX:'fileppt',ZIP:'filezip',JPG:'image',WEB:'externallink'}[f.ext] || 'filetext';
+  return '<div class="dl-option" onclick="downloadFile(\''+asset.id+'\',\''+f.ext+'\')" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\')downloadFile(\''+asset.id+'\',\''+f.ext+'\')">'
+    +'<div class="dl-option-left">'+icon(iconName,18)+'<div><div class="dl-option-name">'+f.ext+'</div><div class="dl-option-size">'+(f.label?f.label:fmtBytes(f.bytes))+'</div></div></div>'
+    +icon('download',16)
+  +'</div>';
+}
+/* ============ CHARTE VIEWER ============ */
+const CHARTE_PAGES = __CHARTE_PAGES__;
+const CHARTE_THUMBS = __CHARTE_THUMBS__;
+const viewerState = { i:0, zoom:1, grid:false, ready:false, touchX:null, lastFocus:null };
+function initViewer(){
+  if(viewerState.ready) return;
+  viewerState.ready = true;
+  const set = (id, name)=>{ const el=document.getElementById(id); if(el) el.innerHTML = icon(name,18); };
+  set('viewerGridBtn','grid'); set('viewerDlBtn','download'); set('viewerCloseBtn','x');
+  set('viewerPrev','chevronleft'); set('viewerNext','chevronright');
+  const z = document.querySelectorAll('.viewer-zoom');
+  if(z[0]) z[0].innerHTML = icon('zoomout',18);
+  if(z[1]) z[1].innerHTML = icon('zoomin',18);
+  const range = document.getElementById('viewerRange');
+  range.max = CHARTE_PAGES.length;
+  const img = document.getElementById('viewerImg');
+  img.addEventListener('click', ()=>viewerZoomTo(viewerState.zoom>1?1:2));
+  const stage = document.getElementById('viewerStage');
+  stage.addEventListener('touchstart', e=>{ viewerState.touchX = (e.touches.length===1 && viewerState.zoom===1) ? e.touches[0].clientX : null; }, {passive:true});
+  stage.addEventListener('touchend', e=>{
+    if(viewerState.touchX==null) return;
+    const dx = e.changedTouches[0].clientX - viewerState.touchX; viewerState.touchX = null;
+    if(Math.abs(dx)>50) viewerGo(dx<0?1:-1);
+  }, {passive:true});
+  document.getElementById('viewerGrid').innerHTML = CHARTE_THUMBS.map((t,k)=>
+    '<button class="viewer-thumb" data-i="'+k+'" onclick="viewerShow('+k+');toggleViewerGrid(false)" aria-label="Page '+(k+1)+'"><img src="'+t+'" alt="" loading="lazy"/><span>'+(k+1)+'</span></button>').join('');
+}
+function openCharteViewer(page){
+  initViewer();
+  closeModal();
+  viewerState.lastFocus = document.activeElement;
+  const v = document.getElementById('charteViewer');
+  v.classList.add('open'); v.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  viewerState.zoom = 1; toggleViewerGrid(false);
+  viewerShow(page||0);
+  const c = document.getElementById('viewerCloseBtn'); if(c) c.focus();
+}
+function closeCharteViewer(){
+  const v = document.getElementById('charteViewer');
+  if(!v.classList.contains('open')) return;
+  v.classList.remove('open'); v.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  const lf = viewerState.lastFocus; if(lf && lf.focus) { try{ lf.focus(); }catch(e){} }
+}
+function viewerIsOpen(){ const v=document.getElementById('charteViewer'); return !!v && v.classList.contains('open'); }
+function viewerShow(i){
+  const n = CHARTE_PAGES.length;
+  i = Math.max(0, Math.min(n-1, i));
+  viewerState.i = i;
+  const img = document.getElementById('viewerImg');
+  img.src = CHARTE_PAGES[i];
+  img.alt = 'Charte graphique HEAJ — page '+(i+1)+' sur '+n;
+  document.getElementById('viewerCount').textContent = 'Page '+(i+1)+' / '+n;
+  document.getElementById('viewerRange').value = i+1;
+  document.getElementById('viewerPrev').disabled = i===0;
+  document.getElementById('viewerNext').disabled = i===n-1;
+  const stage = document.getElementById('viewerStage');
+  stage.scrollTop = 0; stage.scrollLeft = 0;
+  document.querySelectorAll('.viewer-thumb').forEach(b=>b.classList.toggle('current', +b.dataset.i===i));
+}
+function viewerGo(d){ viewerShow(viewerState.i + d); }
+function viewerZoomTo(z){
+  z = Math.max(1, Math.min(3, z));
+  viewerState.zoom = z;
+  const stage = document.getElementById('viewerStage');
+  const img = document.getElementById('viewerImg');
+  stage.classList.toggle('zoomed', z>1);
+  if(z>1){ img.style.width = (z*100)+'%'; img.style.height='auto'; }
+  else { img.style.width=''; img.style.height=''; }
+}
+function viewerZoom(delta){ viewerZoomTo(viewerState.zoom + delta); }
+function toggleViewerGrid(force){
+  const g = document.getElementById('viewerGrid');
+  const show = typeof force==='boolean' ? force : g.hidden;
+  g.hidden = !show;
+  const b = document.getElementById('viewerGridBtn'); if(b) b.classList.toggle('active', show);
+  if(show){ const cur = g.querySelector('.viewer-thumb.current'); if(cur) cur.scrollIntoView({block:'center'}); }
+}
+document.addEventListener('keydown', e=>{
+  if(!viewerIsOpen()) return;
+  if(e.key==='Escape'){ if(!document.getElementById('viewerGrid').hidden) toggleViewerGrid(false); else closeCharteViewer(); }
+  else if(e.key==='ArrowRight'||e.key==='PageDown') { e.preventDefault(); viewerGo(1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp') { e.preventDefault(); viewerGo(-1); }
+  else if(e.key==='Home'){ viewerShow(0); }
+  else if(e.key==='End'){ viewerShow(CHARTE_PAGES.length-1); }
+  else if(e.key==='+'||e.key==='='){ viewerZoom(0.5); }
+  else if(e.key==='-'){ viewerZoom(-0.5); }
+  else if(e.key==='g'||e.key==='G'){ toggleViewerGrid(); }
+});
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+function openSuggestionForm(){
+  const panel = document.getElementById('modalPanel');
+  panel.innerHTML =
+    '<div class="modal-head"><div><h2 id="modalTitle" style="font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:18px;font-weight:800;">Suggérer un ajout</h2>'
+      +'<div class="card-tags" style="margin-top:8px;"><span class="folder-tag" style="background:color-mix(in srgb,var(--navy) 16%, transparent);color:var(--navy)">'+icon('inbox',11)+' Formulaire de contact</span></div></div>'
+      +'<button class="modal-close" onclick="closeModal()" aria-label="Fermer">'+icon('x',16)+'</button></div>'
+    +'<div class="modal-body" style="grid-template-columns:1fr;">'
+      +'<div>'
+        +'<p class="modal-desc">Décrivez le logo, gabarit ou toute autre ressource que vous aimeriez voir ajouté au kit graphique. Vous pouvez joindre un fichier de référence : comme cette page ne peut pas l’envoyer automatiquement, il faudra le glisser dans l’e-mail qui s’ouvrira avant de l’envoyer à communication@heaj.be.</p>'
+        +'<div class="eyebrow" style="margin-bottom:8px;">Votre suggestion</div>'
+        +'<textarea id="suggMessage" rows="5" placeholder="Décrivez votre suggestion…" style="width:100%;font-family:var(--font-body);font-size:14px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);resize:vertical;box-sizing:border-box;"></textarea>'
+        +'<div class="eyebrow" style="margin:16px 0 8px;">Fichier à joindre (facultatif)</div>'
+        +'<input type="file" id="suggFile" style="font-size:13px;" onchange="document.getElementById(\'suggFileName\').textContent = this.files[0] ? (\'Sélectionné : \'+this.files[0].name) : \'\';"/>'
+        +'<div id="suggFileName" style="font-size:12px;color:var(--ink-faint);margin-top:6px;"></div>'
+        +'<div id="suggHint" style="font-size:12px;color:var(--ink-faint);margin-top:14px;"></div>'
+        +'<button class="btn btn-primary btn-block" style="margin-top:14px;" onclick="sendSuggestion()">'+icon('inbox',15)+' Envoyer par e-mail</button>'
+      +'</div>'
+    +'</div>';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function sendSuggestion(){
+  const msgEl = document.getElementById('suggMessage');
+  const fileInput = document.getElementById('suggFile');
+  const msg = msgEl ? msgEl.value.trim() : '';
+  const fileName = (fileInput && fileInput.files[0]) ? fileInput.files[0].name : '';
+  let body = msg;
+  if(fileName){ body += '\n\n[Fichier à joindre manuellement avant l’envoi : '+fileName+']'; }
+  const mailto = 'mailto:communication@heaj.be?subject='+encodeURIComponent('Kit graphique')+'&body='+encodeURIComponent(body);
+  window.location.href = mailto;
+  const hint = document.getElementById('suggHint');
+  if(hint) hint.textContent = fileName ? 'Votre messagerie va s’ouvrir — pensez à joindre « '+fileName+' » avant l’envoi.' : 'Votre messagerie va s’ouvrir avec votre message pré-rempli.';
+}
+
+function downloadFile(id, ext){
+  const a = ASSETS.find(x=>x.id===id);
+  if(a.status==='draft'){
+    toast('Ce fichier est encore en brouillon — demandez la publication au pôle communication.', 'error');
+    return;
+  }
+  a.downloads = (a.downloads||0) + 1;
+  toast('Téléchargement lancé — '+a.title+' ('+ext+')');
+  // Phase suivante : downloads.save({filename, data}) via la capacité "downloads",
+  // le binaire réel étant servi depuis la capacité "assets" (assets.upload côté CMS).
+}
+function quickDownload(id){
+  const a = ASSETS.find(x=>x.id===id);
+  downloadFile(id, a.files[0].ext);
+}
+
+/* ======================================================================
+   SEARCH
+   ====================================================================== */
+/* ======================================================================
+   ADMIN — dashboard / files / upload
+   ====================================================================== */
+function setAdminTab(tab){ state.adminTab = tab; renderAdmin(); }
+
+function kpiCardHTML(iconName, color, num, label, delta, deltaUp){
+  return '<div class="kpi-card"><div class="kpi-top"><div class="kpi-icon" style="background:'+color+'">'+icon(iconName,16)+'</div>'
+    + (delta ? '<div class="kpi-delta'+(deltaUp?' up':'')+'">'+(deltaUp?icon('trend',12):'')+' '+delta+'</div>' : '')
+    + '</div><div class="kpi-num">'+num+'</div><div class="kpi-label">'+label+'</div></div>';
+}
+
+function renderAdmin(){
+  const app = document.getElementById('app');
+  const tab = state.adminTab || 'dashboard';
+  let tabs = '<div class="toolbar" style="border-bottom:1px solid var(--line);margin-bottom:26px;">'
+    + ['dashboard','files','upload'].map(t=>'<button class="filter-chip'+(tab===t?' active':'')+'" onclick="setAdminTab(\''+t+'\')">'+({dashboard:'Tableau de bord',files:'Fichiers',upload:'Ajouter un fichier'})[t]+'</button>').join('')
+    + '</div>';
+
+  let body = '';
+  if(tab==='dashboard') body = adminDashboardHTML();
+  else if(tab==='files') body = adminFilesHTML();
+  else body = adminUploadHTML();
+
+  app.innerHTML = '<div class="shell" style="padding-top:28px;padding-bottom:80px;">'
+    + '<div class="section-head"><div><h1 style="font-size:26px;">Gestion du kit graphique</h1><div class="section-desc">Vue d’ensemble, fichiers publiés et ajout de nouvelles ressources.</div></div></div>'
+    + tabs + body
+  + '</div>';
+}
+
+function adminDashboardHTML(){
+  if(state.loading) return '<div class="admin-kpis">'+Array(4).fill('<div class="sk-card" style="padding:18px;"><div class="skeleton sk-line w40"></div><div class="skeleton sk-line w60" style="margin-top:14px;height:24px;"></div></div>').join('')+'</div>';
+  const kpis = '<div class="admin-kpis">'
+    + kpiCardHTML('filetext','var(--crimson)', ASSETS.length, 'Fichiers publiés', '+3 ce mois-ci', true)
+    + kpiCardHTML('download','var(--navy)', totalDownloads().toLocaleString('fr-BE'), 'Téléchargements cumulés', '+18% vs mois dernier', true)
+    + kpiCardHTML('harddrive','var(--emerald)', fmtBytes(totalStorage()), 'Espace utilisé')
+    + kpiCardHTML('layoutgrid','var(--violet)', FOLDERS.length, 'Dossiers actifs')
+  + '</div>';
+
+  const topAssets = ASSETS.slice().sort((a,b)=>(b.downloads||0)-(a.downloads||0)).slice(0,6);
+  const maxDl = Math.max(...topAssets.map(a=>a.downloads||0));
+  const barsRows = topAssets.map(a=>{
+    const pct = Math.round(((a.downloads||0)/maxDl)*100);
+    return '<div class="bar-row"><div class="bar-row-label">'+a.title+'</div><div class="bar-row-track"><div class="bar-row-fill" style="width:'+pct+'%;background:'+accentOf(a)+'"></div></div><div class="bar-row-num">'+(a.downloads||0)+'</div></div>';
+  }).join('');
+
+  const drafts = ASSETS.filter(a=>a.status==='draft');
+
+  return kpis
+    + '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start;" class="admin-dash-grid">'
+      + '<div class="admin-panel" style="padding:20px 22px;"><div class="admin-panel-head" style="padding:0 0 16px;border:0;"><h2>Fichiers les plus téléchargés</h2></div><div class="bar-list">'+barsRows+'</div></div>'
+      + '<div class="admin-panel" style="padding:20px 22px;"><div class="admin-panel-head" style="padding:0 0 16px;border:0;"><h2>En attente de publication</h2></div>'
+        + (drafts.length ? drafts.map(a=>'<div class="draft-row"><div><div class="row-file-name">'+a.title+'</div><div class="row-file-sub">'+folderOf(a.folder).name+'</div></div><button class="btn btn-sm btn-secondary" onclick="publishAsset(\''+a.id+'\')">Publier</button></div>').join('')
+          : '<div class="state-block" style="padding:32px 16px;"><div class="state-icon">'+icon('checkcircle',22)+'</div><p>Tout est publié — aucun brouillon en attente.</p></div>')
+      + '</div>'
+    + '</div>';
+}
+function publishAsset(id){
+  const a = ASSETS.find(x=>x.id===id);
+  a.status = 'published';
+  toast(a.title+' est maintenant publié.');
+  renderAdmin();
+}
+
+function adminFilesHTML(){
+  const activeSlug = state.route.type==='folder' ? state.route.slug : null;
+  let out = '<div class="toolbar" style="border:0;padding:0;margin-bottom:16px;">'
+    + '<button class="filter-chip'+(!activeSlug?' active':'')+'" onclick="state.route={type:\'home\'};setAdminTab(\'files\')">Tous les dossiers</button>'
+    + FOLDERS.map(f=>'<button class="filter-chip'+(activeSlug===f.slug?' active':'')+'" onclick="state.route={type:\'folder\',slug:\''+f.slug+'\'};setAdminTab(\'files\')">'+f.name+'</button>').join('')
+  + '</div>';
+  const list = activeSlug ? ASSETS.filter(a=>a.folder===activeSlug) : ASSETS;
+  out += '<div class="admin-panel"><div class="table-wrap"><table class="asset-table"><thead><tr><th>Fichier</th><th>Dossier</th><th>Poids</th><th>Mis à jour</th><th>Statut</th><th>Téléch.</th><th></th></tr></thead><tbody>';
+  list.forEach(a=>{
+    const f = folderOf(a.folder);
+    out += '<tr>'
+      +'<td><div class="row-file"><div class="row-file-icon" style="color:'+accentOf(a)+'">'+icon(f.icon,15)+'</div><div><div class="row-file-name">'+a.title+'</div><div class="row-file-sub">'+a.files.map(fileLine).join(' · ')+'</div></div></div></td>'
+      +'<td>'+f.name+(a.sub?' / '+subOf(a.folder,a.sub).name:'')+'</td>'
+      +'<td>'+fmtBytes(totalBytes(a))+'</td>'
+      +'<td>'+a.updated+'</td>'
+      +'<td><span class="status-pill '+a.status+'">'+(a.status==='published'?'Publié':'Brouillon')+'</span></td>'
+      +'<td>'+(a.downloads!=null?a.downloads:'—')+'</td>'
+      +'<td><div class="row-actions">'
+        +'<button class="icon-btn" onclick="openAsset(\''+a.id+'\')" aria-label="Aperçu">'+icon('eye',14)+'</button>'
+        +'<button class="icon-btn" onclick="toast(\'Édition — à venir dans une prochaine étape.\')" aria-label="Modifier">'+icon('pencil',14)+'</button>'
+        +'<button class="icon-btn" onclick="archiveAsset(\''+a.id+'\')" aria-label="Archiver">'+icon('trash',14)+'</button>'
+      +'</div></td>'
+    +'</tr>';
+  });
+  out += '</tbody></table></div></div>';
+  return out;
+}
+function archiveAsset(id){
+  toast('Suppression — confirmation requise (désactivée dans cet aperçu).', 'error');
+}
+
+function adminUploadHTML(){
+  const folderOptions = FOLDERS.map(f=>'<option value="'+f.slug+'">'+f.name+'</option>').join('');
+  return '<div style="display:grid;grid-template-columns:1.1fr 1fr;gap:20px;" class="admin-dash-grid">'
+    + '<div class="admin-panel" style="padding:22px;">'
+      + '<div id="dropZone" class="upload-drop" onclick="document.getElementById(\'fileInput\').click()" ondragover="event.preventDefault();this.classList.add(\'dragover\')" ondragleave="this.classList.remove(\'dragover\')" ondrop="handleDrop(event)">'
+        + '<div class="state-icon">'+icon('cloudup',24)+'</div>'
+        + '<div style="font-weight:700;">Glissez un fichier ici</div>'
+        + '<div style="font-size:13px;color:var(--ink-faint);">ou cliquez pour parcourir — SVG, PDF, PNG, DOCX, PPTX, OTF, ZIP (max. 20 Mo)</div>'
+        + '<input id="fileInput" type="file" class="vh" onchange="handleFileChosen(event)"/>'
+      + '</div>'
+      + '<div id="uploadProgressWrap" hidden style="margin-top:14px;">'
+        + '<div style="display:flex;justify-content:space-between;font-size:13px;"><span id="uploadFileName">—</span><span id="uploadPct">0%</span></div>'
+        + '<div class="progress-track"><div class="progress-fill" id="uploadFill" style="width:0%"></div></div>'
+      + '</div>'
+    + '</div>'
+    + '<div class="admin-panel" style="padding:22px;">'
+      + '<div class="eyebrow" style="margin-bottom:14px;">Informations du fichier</div>'
+      + '<div style="display:flex;flex-direction:column;gap:14px;">'
+        + formField('Titre','text','uploadTitle','Ex. Logo HEAJ — couleur')
+        + '<label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;">Dossier<select id="uploadFolder" style="height:40px;border-radius:var(--radius-md);border:1.5px solid var(--line);padding:0 10px;font-family:var(--font-body);background:var(--paper);color:var(--ink);">'+folderOptions+'</select></label>'
+        + formField('Description','textarea','uploadDesc','À quoi sert ce fichier, et où l’utiliser ?')
+        + '<label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;"><input type="checkbox" id="uploadDraft"/> Enregistrer comme brouillon (non visible en bibliothèque)</label>'
+        + '<button class="btn btn-primary btn-block" onclick="submitUpload()">'+icon('upload',16)+' Ajouter au kit graphique</button>'
+        + '<div style="font-size:12px;color:var(--ink-faint);line-height:1.5;">Aperçu de mise en page — l’enregistrement réel (fichier + fiche) sera activé à l’étape suivante.</div>'
+      + '</div>'
+    + '</div>'
+  + '</div>';
+}
+function formField(label, type, id, placeholder){
+  if(type==='textarea') return '<label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;">'+label+'<textarea id="'+id+'" rows="3" placeholder="'+placeholder+'" style="border-radius:var(--radius-md);border:1.5px solid var(--line);padding:9px 12px;font-family:var(--font-body);font-size:14px;resize:vertical;background:var(--paper);color:var(--ink);"></textarea></label>';
+  return '<label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;">'+label+'<input id="'+id+'" type="'+type+'" placeholder="'+placeholder+'" style="height:40px;border-radius:var(--radius-md);border:1.5px solid var(--line);padding:0 12px;font-family:var(--font-body);font-size:14px;background:var(--paper);color:var(--ink);"/></label>';
+}
+function handleDrop(e){
+  e.preventDefault(); e.currentTarget.classList.remove('dragover');
+  const f = e.dataTransfer.files[0]; if(f) startFakeUpload(f.name);
+}
+function handleFileChosen(e){
+  const f = e.target.files[0]; if(f) startFakeUpload(f.name);
+}
+function startFakeUpload(name){
+  document.getElementById('uploadProgressWrap').hidden = false;
+  document.getElementById('uploadFileName').textContent = name;
+  document.getElementById('uploadTitle').value = document.getElementById('uploadTitle').value || name.replace(/\.[a-zA-Z0-9]+$/,'');
+  let pct = 0;
+  const fill = document.getElementById('uploadFill'); const pctEl = document.getElementById('uploadPct');
+  const t = setInterval(()=>{
+    pct += Math.random()*22;
+    if(pct>=100){ pct=100; clearInterval(t); toast('Fichier prêt — complétez la fiche puis validez.'); }
+    fill.style.width = pct+'%'; pctEl.textContent = Math.round(pct)+'%';
+  }, 180);
+}
+function submitUpload(){
+  const title = document.getElementById('uploadTitle').value.trim();
+  if(!title){ toast('Ajoutez un titre avant d’enregistrer.', 'error'); return; }
+  toast('« '+title+' » enregistré. Aperçu de mise en page — le stockage réel arrive à l’étape suivante.');
+  setAdminTab('files');
+}
+
+/* ======================================================================
+   ROUTER / BOOT
+   ====================================================================== */
+function render(){
+  document.getElementById('mobileMenuSheet') && closeMobileSheet();
+  if(state.mode==='admin') renderAdmin(); else renderPublic();
+}
+
+function shareKit(){
+  const url = location.href.split('#')[0];
+  const data = { title:'Kit Grafik — HEAJ', text:'Ressources graphiques de la HEAJ : charte, logos, typos, couleurs et modèles.', url:url };
+  const copyFallback = ()=>{
+    const done = ()=>toast('Lien copié — vous pouvez le coller dans un e-mail ou un message.');
+    const legacy = ()=>{
+      try{
+        const ta=document.createElement('textarea'); ta.value=url; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select(); const ok=document.execCommand('copy'); document.body.removeChild(ta);
+        if(ok) done(); else toast('Copie impossible — lien : '+url, 'error');
+      }catch(e){ toast('Copie impossible — lien : '+url, 'error'); }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done, legacy); }
+    else legacy();
+  };
+  if(navigator.share){
+    navigator.share(data).catch(err=>{ if(err && err.name==='AbortError') return; copyFallback(); });
+  } else { copyFallback(); }
+}
+function onSearchInput(val){
+  state.q = val;
+  const si = document.getElementById('searchInput');
+  if(si && si.value!==val) si.value = val;
+  if(state.route.type==='home' && state.q){ state.route = {type:'folder', slug:'logos'}; render(); }
+  else { renderPublicContent(); }
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  render();
+});
+function closeMobileSheet(){ const s=document.getElementById('mobileMenuSheet'); if(s) s.classList.remove('open'); }
+</script>
+<script>
+window.__FONT_READY__ = true;
+</script>
