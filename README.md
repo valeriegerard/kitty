@@ -68,3 +68,9 @@ git push -u origin main
 ```
 
 Ensuite, à chaque évolution : `git add .`, `git commit -m "description"`, `git push`.
+
+## Version en ligne (12 octobre 2026)
+
+`index.html` est la version publiée de l'artefact Kit Grafik, avec les fiches, tags et crédits enregistrés par l'équipe. Les fichiers déposés depuis l'espace de gestion (ex. flèches SVG) sont dans `fichiers/`. L'espace de gestion est masqué dans cette version publique : les modifications se font dans l'artefact.
+
+`archives/kit-grafik-2026-10-12.zip` contient cette version en ligne et la source de l'artefact (`source-artefact.html`).
