@@ -2371,7 +2371,7 @@ function renderPublic(){
 function footerHTML(){
   return '<footer class="site-footer"><div class="shell footer-grid">'
     +'<div class="footer-info"><div class="brand-name" style="font-family:var(--font-display);font-size:15px;margin-bottom:14px;">CONTACTS</div>'
-    +'<div class="footer-links"><a href="mailto:question@heaj.be?subject=Kit%20graphique" style="display:inline-flex;align-items:center;gap:6px;">'+icon('inbox',14)+'question@heaj.be</a><a onclick="openSuggestionForm()" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">'+icon('plus',14)+'Suggérer un ajout</a></div>'
+    +'<div class="footer-links"><a href="mailto:valerie.gerard@gmail.com?subject=Kit%20graphique" style="display:inline-flex;align-items:center;gap:6px;">'+icon('inbox',14)+'valerie.gerard@gmail.com</a><a onclick="openSuggestionForm()" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">'+icon('plus',14)+'Suggérer un ajout</a></div>'
     +'</div>'
     +'<a class="footer-frise" href="#" onclick="setMode(\'public\');navigate({type:\'home\'});return false;" aria-label="Retour à l’accueil">'+kitgrafikLogoMark()+'</a>'
     +'</div></footer>';
@@ -2578,7 +2578,7 @@ function openSuggestionForm(){
       +'<button class="modal-close" onclick="closeModal()" aria-label="Fermer">'+icon('x',16)+'</button></div>'
     +'<div class="modal-body" style="grid-template-columns:1fr;">'
       +'<div>'
-        +'<p class="modal-desc">Décrivez le logo, gabarit ou toute autre ressource que vous aimeriez voir ajouté au kit graphique. Vous pouvez joindre un fichier de référence : comme cette page ne peut pas l’envoyer automatiquement, il faudra le glisser dans l’e-mail qui s’ouvrira avant de l’envoyer à valerie.gerard@heaj.be.</p>'
+        +'<p class="modal-desc">Décrivez le logo, gabarit ou toute autre ressource que vous aimeriez voir ajouté au kit graphique. Vous pouvez joindre un fichier de référence : comme cette page ne peut pas l’envoyer automatiquement, il faudra le glisser dans l’e-mail qui s’ouvrira avant de l’envoyer à valerie.gerard@gmail.com.</p>'
         +'<div class="eyebrow" style="margin-bottom:8px;">Votre suggestion</div>'
         +'<textarea id="suggMessage" rows="5" placeholder="Décrivez votre suggestion…" style="width:100%;font-family:var(--font-body);font-size:14px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);resize:vertical;box-sizing:border-box;"></textarea>'
         +'<div class="eyebrow" style="margin:16px 0 8px;">Fichier à joindre (facultatif)</div>'
@@ -2598,7 +2598,7 @@ function sendSuggestion(){
   const fileName = (fileInput && fileInput.files[0]) ? fileInput.files[0].name : '';
   let body = msg;
   if(fileName){ body += '\n\n[Fichier à joindre manuellement avant l’envoi : '+fileName+']'; }
-  const mailto = 'mailto:valerie.gerard@heaj.be?subject='+encodeURIComponent('Kit graphique')+'&body='+encodeURIComponent(body);
+  const mailto = 'mailto:valerie.gerard@gmail.com?subject='+encodeURIComponent('Kit graphique')+'&body='+encodeURIComponent(body);
   window.location.href = mailto;
   const hint = document.getElementById('suggHint');
   if(hint) hint.textContent = fileName ? 'Votre messagerie va s’ouvrir — pensez à joindre « '+fileName+' » avant l’envoi.' : 'Votre messagerie va s’ouvrir avec votre message pré-rempli.';
