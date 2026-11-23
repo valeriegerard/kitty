@@ -760,7 +760,7 @@ table.asset-table tr:hover td{background:var(--paper-warm);}
         </button>
       </div>
       <nav class="tool-switch" id="toolSwitch" hidden aria-label="Outils internes"><button type="button" class="active" aria-current="page" onclick="setMode('public')" title="Retour à la bibliothèque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/></svg>Bibliothèque</button><a href="https://claude.ai/artifact/A1xjK5WUTEr5ppLcFJvTeb" target="_blank" rel="noopener" title="Grilles de cours HEAJ (outil interne)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17M3.5 14.5h17M9.5 9v11"/></svg>Programmes</a></nav>
-      <button class="icon-btn" id="lockBtn" aria-label="Espace gestion" title="Espace gestion" aria-pressed="false" onclick="setMode(state.mode==='admin'?'public':'admin')">
+      <button class="icon-btn" id="lockBtn" hidden aria-label="Espace gestion" title="Espace gestion" aria-pressed="false" onclick="setMode(state.mode==='admin'?'public':'admin')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9" rx="1.8"/><path d="M8 10.5V7.7a4 4 0 0 1 8 0v2.8"/></svg>
       </button>
       <button class="btn btn-secondary btn-share" id="shareBtn" onclick="shareKit()" aria-label="Partager le kit graphique">
@@ -781,7 +781,7 @@ table.asset-table tr:hover td{background:var(--paper-warm);}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
         <input type="search" placeholder="Rechercher…" aria-label="Rechercher" oninput="onSearchInput(this.value)"/>
       </div>
-      <div class="mode-switch" style="width:100%;">
+      <div class="mode-switch" id="mobileModeSwitch" hidden style="width:100%;">
         <button class="active" id="btnModePublicM" style="flex:1;justify-content:center;" onclick="setMode('public');toggleMobileNav();">Bibliothèque</button>
         <button id="btnModeAdminM" style="flex:1;justify-content:center;" onclick="setMode('admin');toggleMobileNav();">Gestion</button>
       </div>
@@ -2370,7 +2370,7 @@ function renderPublic(){
 
 function footerHTML(){
   return '<footer class="site-footer"><div class="shell footer-grid">'
-    +'<div class="footer-info"><div class="brand-name" style="font-family:var(--font-display);font-size:15px;margin-bottom:14px;">CONTACTS</div>'
+    +'<div class="footer-info"><div class="brand-name" onclick="secretAdminTap()" style="font-family:var(--font-display);font-size:15px;margin-bottom:14px;user-select:none;">CONTACTS</div>'
     +'<div class="footer-links"><a href="mailto:valerie.gerard@gmail.com?subject=Kit%20graphique" style="display:inline-flex;align-items:center;gap:6px;">'+icon('inbox',14)+'valerie.gerard@gmail.com</a><a onclick="openSuggestionForm()" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">'+icon('plus',14)+'Suggérer un ajout</a></div>'
     +'</div>'
     +'<a class="footer-frise" href="#" onclick="setMode(\'public\');navigate({type:\'home\'});return false;" aria-label="Retour à l’accueil">'+kitgrafikLogoMark()+'</a>'
@@ -3326,8 +3326,13 @@ async function maybeMigrateLocal(){
     rebuildAssets(); safeRender();
   }catch(e){}
 }
+/* Accès discret à la gestion (cadenas masqué) : Ctrl/Cmd+Maj+G, ou 5 touches rapides sur « CONTACTS » en pied de page. */
+let secretTaps = [];
+function openAdminSecret(){ if(KIT.canWrite===false || window.STATIC_DB) return; setMode(state.mode==='admin'?'public':'admin'); }
+function secretAdminTap(){ const now = Date.now(); secretTaps = secretTaps.filter(t=>now-t<2000); secretTaps.push(now); if(secretTaps.length>=5){ secretTaps = []; openAdminSecret(); } }
+document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey) && e.shiftKey && (e.key==='g'||e.key==='G')){ e.preventDefault(); openAdminSecret(); } });
 function updateLockVisibility(){
-  const lb = document.getElementById('lockBtn'); if(lb) lb.hidden = KIT.canWrite===false;
+  const lb = document.getElementById('lockBtn'); if(lb) lb.hidden = true;
   if(KIT.canWrite===false && state.mode==='admin') setMode('public');
 }
 
